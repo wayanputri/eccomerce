@@ -28,11 +28,3 @@ func main(){
 
 }
 
-// export JWT_KEY='ecommerce_secret_dong'
-// export DBUSER='root'
-// export DBPASS='wayan123'
-// export DBHOST='127.0.0.1'
-// export DBPORT='3306'
-// export DBNAME='ecommerce'
-// export KEY_SERVER_MIDTRANS='SB-Mid-server-0NrVq555rAslGxfgAKi_NqMn'
-// export KEY_CLIENT_MIDTRANS='SB-Mid-client-mFPo7qREcM9p6x0y'
