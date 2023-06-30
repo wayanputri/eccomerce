@@ -30,6 +30,7 @@ func PaymentEntityToModel(payment PaymentEntity) Payment {
 		Status:        payment.Status,
 		Bank:          payment.Bank,
 		VA:            payment.VA,
+		OrderID:       payment.OrderID,
 	}
 }
 

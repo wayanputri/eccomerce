@@ -27,11 +27,12 @@ type User struct{
 
 type Payment struct{
 	gorm.Model
-	TransactionID 	uint		`gorm:"column:transaction_id"`
-	Transactions	Transaction `gorm:"foreignKey:TransactionID"`
-	Status 			string		`gorm:"column:status"`
-	Bank 			string		`gorm:"column:bank"`
-	VA		 		string		`gorm:"column:va"`
+	TransactionID 	uint		  `gorm:"column:transaction_id"`
+	Transactions	Transaction	  `gorm:"foreignKey:TransactionID"`
+	Status 			string		  `gorm:"column:status"`
+	Bank 			string		  `gorm:"column:bank"`
+	VA		 		string		  `gorm:"column:va"`
+	OrderID			string		  `gorm:"column:order_id"`
 }
 
 type Transaction struct{

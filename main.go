@@ -4,7 +4,6 @@ import (
 	"belajar/bareng/app/config"
 	"belajar/bareng/app/database"
 	"belajar/bareng/app/router"
-	"belajar/bareng/features/payment/data"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -22,7 +21,6 @@ func main(){
 		Format: `[${time_rfc3339}] ${status} ${method} ${host}${path} ${latency_human}` + "\n",
 	}))
 	
-	data.GoMitransts()
 	router.InitRouter(e,mysql)
 	e.Logger.Fatal(e.Start(":8080"))
 

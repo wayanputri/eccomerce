@@ -24,15 +24,16 @@ type LoginUser struct {
 }
 
 type PaymentEntity struct {
-	Id           uint         		`json:"payment_id,omitempty" form:"payment_id"`
-	CreatedAt    time.Time    		`json:"created_at,omitempty"`
-	UpdatedAt    time.Time    		`json:"updated_at,omitempty"`
-	DeletedAt    time.Time    		`json:"deleted_at,omitempty"`
-	TransactionID uint        		`json:"transaction_id,omitempty" form:"transaction_id"`
-	Transactions  TransactionEntity `json:"transactions,omitempty"`
-	Status        string      		`json:"status,omitempty" form:"status"`
-	Bank          string      		`json:"bank,omitempty" form:"bank"`
-	VA            string      		`json:"va,omitempty" form:"va"`
+	Id           uint         		  `json:"payment_id,omitempty" form:"payment_id"`
+	CreatedAt    time.Time    		  `json:"created_at,omitempty"`
+	UpdatedAt    time.Time    		  `json:"updated_at,omitempty"`
+	DeletedAt    time.Time    		  `json:"deleted_at,omitempty"`
+	TransactionID uint        		  `json:"transaction_id,omitempty" form:"transaction_id"`
+	Transactions  TransactionEntity   `json:"transactions,omitempty"`
+	Status        string      		  `json:"status,omitempty" form:"status"`
+	Bank          string      		  `json:"bank,omitempty" form:"bank"`
+	VA            string      		  `json:"va,omitempty" form:"va"`
+	OrderID		  string			  `json:"order_id,omitempty" form:"order_id"`
 }
 
 type TransactionEntity struct {

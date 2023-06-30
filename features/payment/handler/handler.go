@@ -28,7 +28,13 @@ func (handler *PaymentHandler) Add(c echo.Context) error{
 		return helper.FailedRequest(c,"failet create data payment"+errAdd.Error(),nil)
 	}
 
-	return helper.Success(c,"success add data payment",PaymentId)
+	data,errGet:=handler.paymentHandler.GetById(PaymentId)
+	if errGet != nil{
+		return helper.FailedRequest(c,"failed get data payment",nil)
+	}
+	dataResponse:=EntityToResponse(data)
+
+	return helper.Success(c,"success add data payment",dataResponse)
 }
 
 func New(service payment.PaymentService) *PaymentHandler{

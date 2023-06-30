@@ -3,6 +3,7 @@ package data
 import (
 	"belajar/bareng/features"
 	"belajar/bareng/features/payment"
+	"belajar/bareng/helper"
 	"errors"
 
 	"gorm.io/gorm"
@@ -12,18 +13,36 @@ type PaymentRepo struct {
 	db *gorm.DB
 }
 
+// SelectById implements payment.PaymentData.
+func (repo *PaymentRepo) SelectById(payment_id uint) (features.PaymentEntity, error) {
+	var paymentModel features.Payment
+	tx:=repo.db.Preload("Transactions").Preload("Transactions.Users").Preload("Transactions.Products").First(&paymentModel,payment_id)
+	if tx.Error != nil{
+		return features.PaymentEntity{},tx.Error
+	}
+	data := features.PaymentModelToEntity(paymentModel)
+	return data,nil
+
+}
+
 // Insert implements payment.PaymentData.
 func (repo *PaymentRepo) Insert(payment features.PaymentEntity, transactionId uint) (uint, error) {
 	var transaction features.Transaction
-	tx := repo.db.First(&transaction,transactionId)
-	if tx.Error != nil{
+	tx := repo.db.First(&transaction, transactionId)
+	if tx.Error != nil {
 		return 0, errors.New("id transaction tidak ditemukan")
 	}
+	orderID, errOrderId := helper.GenerateUUID()
+	if errOrderId != nil {
+		return 0, errOrderId
+	}
 	paymentModel := features.PaymentEntityToModel(payment)
-	paymentModel.TransactionID = transactionId
-	txx:=repo.db.Where("transaction_id = ?",transactionId).Create(&paymentModel)
-	if txx.Error != nil{
-		return 0,txx.Error
+	dataResponse := requestCreditCard(transaction.TotalHarga, orderID)
+	paymentModel = PaymentResponse(paymentModel, transactionId, orderID, dataResponse)
+
+	txx := repo.db.Where("transaction_id = ?", transactionId).Create(&paymentModel)
+	if txx.Error != nil {
+		return 0, txx.Error
 	}
 	return paymentModel.ID, nil
 }
