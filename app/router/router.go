@@ -58,5 +58,6 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	handlerPayment := HandlerPayment.New(servicePayment)
 
 	c.POST("/transactions/:transaksi_id/payments",handlerPayment.Add,middlewares.JWTMiddleware())
+	c.PUT("/payments",handlerPayment.Notification,middlewares.JWTMiddleware())
 
 }

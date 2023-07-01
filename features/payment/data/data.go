@@ -13,15 +13,25 @@ type PaymentRepo struct {
 	db *gorm.DB
 }
 
+// UpdateStatus implements payment.PaymentData.
+func (repo *PaymentRepo) UpdateStatus(payload features.PaymentEntity, OrderID string) (uint, error) {
+	var payment features.Payment
+	tx := repo.db.Model(&payment).Where("order_id=?",OrderID).Updates(features.PaymentEntityToModel(payload))
+	if tx.Error != nil{
+		return 0,tx.Error
+	}
+	return payment.ID,nil
+}
+
 // SelectById implements payment.PaymentData.
 func (repo *PaymentRepo) SelectById(payment_id uint) (features.PaymentEntity, error) {
 	var paymentModel features.Payment
-	tx:=repo.db.Preload("Transactions").Preload("Transactions.Users").Preload("Transactions.Products").First(&paymentModel,payment_id)
-	if tx.Error != nil{
-		return features.PaymentEntity{},tx.Error
+	tx := repo.db.Preload("Transactions").Preload("Transactions.Users").Preload("Transactions.Products").First(&paymentModel, payment_id)
+	if tx.Error != nil {
+		return features.PaymentEntity{}, tx.Error
 	}
 	data := features.PaymentModelToEntity(paymentModel)
-	return data,nil
+	return data, nil
 
 }
 

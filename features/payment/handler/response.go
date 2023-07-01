@@ -25,3 +25,18 @@ func EntityToResponse(payment features.PaymentEntity) Response{
 		JumlahBarang: 	payment.Transactions.JumlahBarang,
 	}
 }
+
+type NotificationPayload struct {
+	OrderID    string  `json:"order_id"`
+	Amount     float64 `json:"amount"`
+	Status     string  `json:"status"`
+	CustomerID string  `json:"customer_id"`
+	Customers  []features.UserEntity
+}
+
+func Notifikasi(payment NotificationPayload) features.PaymentEntity{
+	return features.PaymentEntity{
+		OrderID: payment.OrderID,
+		Status:  payment.Status,
+	}
+}

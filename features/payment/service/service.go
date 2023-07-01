@@ -12,11 +12,20 @@ type PaymentData struct {
 	validate    *validator.Validate
 }
 
+// updateTransactionStatus implements payment.PaymentService.
+func (service *PaymentData) UpdateStatus(payload features.PaymentEntity, orderID string) (uint, error) {
+	data,err:=service.paymentData.UpdateStatus(payload,orderID)
+	if err != nil{
+		return 0,err
+	}
+	return data,nil
+}
+
 // GetById implements payment.PaymentService.
 func (service *PaymentData) GetById(payment_id uint) (features.PaymentEntity, error) {
-	data,err:=service.paymentData.SelectById(payment_id)
-	if err != nil{
-		return features.PaymentEntity{},err
+	data, err := service.paymentData.SelectById(payment_id)
+	if err != nil {
+		return features.PaymentEntity{}, err
 	}
 	return data, nil
 }
