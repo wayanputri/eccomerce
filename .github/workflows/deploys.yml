@@ -45,4 +45,4 @@ jobs:
             docker rm belajar_go-v1
             docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/belajar_go-images
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/belajar_go-images
-            docker run -d -p 80:80 -e JWT_KEY=${{ secrets.JWT_KEY }} -e KEY_SERVER_MIDTRANS=${{ secrets.KEY_SERVER_MIDTRANS }} -e KEY_CLIENT_MIDTRANS=${{ secrets.KEY_CLIENT_MIDTRANS }} -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} --name beapiContainer ${{ secrets.DOCKERHUB_USERNAME }}/be-images:latest
+            docker run -d -p 80:80 -e JWT_KEY=${{ secrets.JWT_KEY }} -e KEY_SERVER_MIDTRANS=${{ secrets.KEY_SERVER_MIDTRANS }} -e KEY_CLIENT_MIDTRANS=${{ secrets.KEY_CLIENT_MIDTRANS }} -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} --name belajar_goContainer ${{ secrets.DOCKERHUB_USERNAME }}/belajar_go-images:latest
