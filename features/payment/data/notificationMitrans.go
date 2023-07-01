@@ -13,7 +13,7 @@ var c coreapi.Client
 // notification : Midtrans-Go simple sample HTTP Notification handling
 func notification(w http.ResponseWriter, r *http.Request) {
 
-	// 1. Initialize empty map
+
 	var notificationPayload map[string]interface{}
 
 	// 2. Parse JSON request body and use it to set json to payload
