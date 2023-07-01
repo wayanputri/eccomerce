@@ -3,7 +3,6 @@ package service
 import (
 	"belajar/bareng/features"
 	"belajar/bareng/features/user"
-	"errors"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -60,10 +59,7 @@ func (servis *userService) Login(email string, password string) (uint, error) {
 
 // Add implements user.UserService
 func (servis *userService) Add(user features.UserEntity) (uint, error) {
-	errValidate := servis.validate.Struct(user)
-	if errValidate != nil {
-		return 0, errors.New("email dan password tidak boleh kosong")
-	}
+
 	id, err := servis.userData.Insert(user)
 	if err != nil {
 		return 0, err
