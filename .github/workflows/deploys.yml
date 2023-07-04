@@ -45,4 +45,4 @@ jobs:
             docker rm belajarContainer
             docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/belajar-images
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/belajar-images
-            docker run -d -p 80:80 -e JWT_KEY=${{ secrets.JWT_KEY }} -e KEY_SERVER_MIDTRANS=${{ secrets.KEY_SERVER_MIDTRANS }} -e KEY_CLIENT_MIDTRANS=${{ secrets.KEY_CLIENT_MIDTRANS }} -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} --name belajarContainer ${{ secrets.DOCKERHUB_USERNAME }}/belajar-images:latest
+            docker run -d -p 80:80 -e JWT_KEY=${{ secrets.JWT_KEY }} -e CLOUD_NAME=${{ secrets.CLOUD_NAME }} -e KEY_API_SECRET=${{ secrets.KEY_API_SECRET }} -e KEY_API=${{ secrets.KEY_API }} -e KEY_SERVER_MIDTRANS=${{ secrets.KEY_SERVER_MIDTRANS }} -e KEY_CLIENT_MIDTRANS=${{ secrets.KEY_CLIENT_MIDTRANS }} -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} --name belajarContainer ${{ secrets.DOCKERHUB_USERNAME }}/belajar-images:latest
