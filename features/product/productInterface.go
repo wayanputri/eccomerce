@@ -9,6 +9,7 @@ type ProductData interface {
 	Update(id uint,product features.ProductEntity)(uint,error)
 	Delete(id uint)(error)
 	SelectByUserId(user_id uint)(error)
+	
 }
 
 type ProductServise interface{
@@ -18,4 +19,5 @@ type ProductServise interface{
 	Edit(id uint,product features.ProductEntity) (uint,error)
 	Delete(id uint)(error)
 	SelectByUserId(user_id uint)(error)
+	
 }

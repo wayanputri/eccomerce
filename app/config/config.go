@@ -13,14 +13,17 @@ var (
 )
 
 type AppConfig struct{
-	DB_USERNAME string
-	DB_PASSWORD string
-	DB_HOSTNAME string
-	DB_PORT 	int 
-	DB_NAME 	string
-	jwtKey 		string
-	KEY_SERVER_MIDTRANS   string
-	KEY_CLIENT_MIDTRANS   string
+	DB_USERNAME 		string
+	DB_PASSWORD 		string
+	DB_HOSTNAME 		string
+	DB_PORT 			int 
+	DB_NAME 			string
+	jwtKey 				string
+	KEY_SERVER_MIDTRANS string
+	KEY_CLIENT_MIDTRANS string
+	KEY_API 			string
+	KEY_API_SECRET 		string
+	CLOUD_NAME			string
 }
 
 func InitConfig() *AppConfig{
@@ -66,6 +69,19 @@ func ReadEnv() *AppConfig{
 		isRead = false
 	}
 
+	if val, found := os.LookupEnv("KEY_API"); found {
+		app.KEY_API = val
+		isRead = false
+	}
+	if val, found := os.LookupEnv("KEY_API_SECRET"); found {
+		app.KEY_API_SECRET = val
+		isRead = false
+	}	
+	if val, found := os.LookupEnv("CLOUD_NAME"); found {
+		app.CLOUD_NAME = val
+		isRead = false
+	}	
+
 	if isRead {
 		viper.AddConfigPath(".")
 		viper.SetConfigName("local")
@@ -85,6 +101,9 @@ func ReadEnv() *AppConfig{
 		app.DB_NAME = viper.Get("DBNAME").(string)
 		app.KEY_SERVER_MIDTRANS = viper.Get("KEY_SERVER_MIDTRANS").(string)
 		app.KEY_CLIENT_MIDTRANS = viper.Get("KEY_CLIENT_MIDTRANS").(string)
+		app.KEY_API = viper.Get("KEY_API").(string)
+		app.KEY_API_SECRET = viper.Get("KEY_API_SECRET").(string)
+		app.CLOUD_NAME = viper.Get("CLOUD_NAME").(string)
 	}
 	SECRET_JWT = app.jwtKey
 	return &app

@@ -2,17 +2,6 @@ package features
 
 import "gorm.io/gorm"
 
-type Product struct{
-	gorm.Model
-	Nama 		 string			`gorm:"column:nama"`
-	Harga 		 string			`gorm:"column:harga"`
-	Deskripsi 	 string			`gorm:"column:deskripsi"`
-	Stok 		 int			`gorm:"column:stok"`
-	UserID 		 uint			`gorm:"column:user_id"`
-	Users		 User			`gorm:"foreignKey:UserID"`
-	Transactions []Transaction	`gorm:"foreignKey:ProductID"`
-	Image		 []Image		`gorm:"foreignKey:ProductID"`	
-}
 
 type User struct{
 	gorm.Model
@@ -21,8 +10,19 @@ type User struct{
 	Email 		 string			`gorm:"column:email;unique;not nul"`
 	Password 	 string			`gorm:"column:password;not nul"`
 	Alamat 		 string			`gorm:"column:alamat;not nul"`
-	Products	 []Product		`gorm:"foreignKey:UserID"`
+	Products	 []Product		`gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	Transactions []Transaction	`gorm:"foreignKey:UserID"`
+}
+type Product struct{
+	gorm.Model
+	Nama 		 string			`gorm:"column:nama"`
+	Harga 		 string			`gorm:"column:harga"`
+	Deskripsi 	 string			`gorm:"column:deskripsi"`
+	Stok 		 int			`gorm:"column:stok"`
+	UserID 		 uint			`gorm:"column:user_id"`
+	Users		 User			`gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Transactions []Transaction	`gorm:"foreignKey:ProductID"`
+	Image		 []Image		`gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`	
 }
 
 type Payment struct{
@@ -50,7 +50,7 @@ type Transaction struct{
 type Image struct{
 	gorm.Model
 	ProductID 	uint	`gorm:"column:product_id"`
-	Products	Product `gorm:"foreignKey:ProductID"`		
+	Products	Product `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`		
 	Link 		string	`gorm:"column:link"`
-	Nama 		string	`gorm:"column:nama"`
+	Nama 		string	`gorm:"column:nama_images"`
 }

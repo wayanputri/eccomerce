@@ -18,6 +18,10 @@ import (
 	HandlerPayment "belajar/bareng/features/payment/handler"
 	ServisePayment "belajar/bareng/features/payment/service"
 
+	DataImage "belajar/bareng/features/image/data"
+	HandlerImage "belajar/bareng/features/image/handler"
+	ServiseImage "belajar/bareng/features/image/service"
+
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
@@ -52,6 +56,7 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	c.GET("/transactions",handlerTransaction.GetAll,middlewares.JWTMiddleware())
 	c.PUT("/transactions/:transaksi_id",handlerTransaction.Edit,middlewares.JWTMiddleware())
 	c.DELETE("/transactions/:transaksi_id",handlerTransaction.Delete,middlewares.JWTMiddleware())
+	
 
 	dataPayment := DataPayment.New(db)
 	servicePayment := ServisePayment.New(dataPayment)
@@ -59,5 +64,11 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 
 	c.POST("/transactions/:transaksi_id/payments",handlerPayment.Add,middlewares.JWTMiddleware())
 	c.POST("/payments",handlerPayment.Notification,middlewares.JWTMiddleware())
+
+	dataImage := DataImage.New(db)
+	serviceImage := ServiseImage.New(dataImage)
+	handlerImage := HandlerImage.New(serviceImage)
+
+	c.POST("/uploud",handlerImage.AddImage)
 
 }

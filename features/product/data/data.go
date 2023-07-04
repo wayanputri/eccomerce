@@ -13,15 +13,14 @@ type ProductsData struct {
 }
 
 // SelectByUserId implements product.ProductData.
-func (repo *ProductsData) SelectByUserId(user_id uint) (error) {
+func (repo *ProductsData) SelectByUserId(user_id uint) error {
 	var product features.Product
-	tx:=repo.db.First(&product,"user_id=?",user_id)
-	if tx.Error != nil{
+	tx := repo.db.First(&product, "user_id=?", user_id)
+	if tx.Error != nil {
 		return tx.Error
 	}
 	return nil
 }
-
 
 // Delete implements product.ProductData
 func (repo *ProductsData) Delete(id uint) error {

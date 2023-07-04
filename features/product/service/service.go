@@ -13,9 +13,9 @@ type ProductService struct {
 }
 
 // SelectByUserId implements product.ProductServise.
-func (service *ProductService) SelectByUserId(user_id uint) (error) {
-	err:=service.productService.SelectByUserId(user_id)
-	if err != nil{
+func (service *ProductService) SelectByUserId(user_id uint) error {
+	err := service.productService.SelectByUserId(user_id)
+	if err != nil {
 		return err
 	}
 	return nil

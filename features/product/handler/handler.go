@@ -108,6 +108,8 @@ func (handler *ProductHandler) DeleteProduct(c echo.Context) error{
 	}
 	return helper.SuccessWithOutData(c,"success delete data")
 }
+
+
 func New(products product.ProductServise) *ProductHandler{
 	return &ProductHandler{
 		productHandler: products,

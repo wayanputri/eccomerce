@@ -73,5 +73,5 @@ type ImageEntity struct {
 	ProductID 	 uint    	   `json:"product_id,omitempty" form:"product_id"`
 	Products  	 ProductEntity 	   `json:"products,omitempty"`
 	Link      	 string 	   `json:"link,omitempty" form:"link"`
-	Nama      	 string 	   `json:"nama,omitempty" form:"nama"`
+	Nama      	 string 	   `json:"nama_images,omitempty" form:"nama_images"`
 }

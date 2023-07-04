@@ -22,7 +22,7 @@ func main(){
 	}))
 	
 	router.InitRouter(e,mysql)
-	e.Logger.Fatal(e.Start(":80"))
+	e.Logger.Fatal(e.Start(":8080"))
 
 }
 
