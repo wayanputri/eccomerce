@@ -16,7 +16,7 @@ type PaymentRepo struct {
 // UpdateStatus implements payment.PaymentData.
 func (repo *PaymentRepo) UpdateStatus(payload features.PaymentEntity, OrderID string) (uint, error) {
 	var payment features.Payment
-	tx := repo.db.Model(&payment).Where("order_id=?",OrderID).Updates(features.PaymentEntityToModel(payload))
+	tx := repo.db.Model(&payment.Status).Where("order_id=?",OrderID).Updates(features.PaymentEntityToModel(payload))
 	if tx.Error != nil{
 		return 0,tx.Error
 	}
