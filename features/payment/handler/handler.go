@@ -42,18 +42,18 @@ func (handler *PaymentHandler) Notification(c echo.Context) error {
 
 	errBind:=c.Bind(&payload)
 	if errBind != nil{
-		return helper.FailedRequest(c,"data tidak terbaca",nil)
+		return helper.FailedRequest(c,"data tidak terbaca "+errBind.Error(),nil)
 	}
 	payloadEntity:= Notifikasi(payload)
 
 	paymentId,err:=handler.paymentHandler.UpdateStatus(payloadEntity,payload.OrderID)
 	if err != nil{
-		return helper.InternalError(c,"failed update status",nil)
+		return helper.InternalError(c,"failed update status "+err.Error(),nil)
 	}
 
 	data,errGet:=handler.paymentHandler.GetById(paymentId)
 	if errGet != nil{
-		return helper.FailedNotFound(c,"gagal read update terbaru",nil)
+		return helper.FailedNotFound(c,"gagal read update terbaru "+errGet.Error(),nil)
 	}
 	return helper.Success(c,"success add data payment",data)
 }
