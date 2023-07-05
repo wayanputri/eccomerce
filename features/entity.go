@@ -51,18 +51,18 @@ type TransactionEntity struct {
 }
 
 type ProductEntity struct {
-	Id          uint         		 `json:"product_id,omitempty" form:"product_id"`
-	CreatedAt    time.Time 		     `json:"created_at,omitempty"`
-	UpdatedAt    time.Time   	     `json:"updated_at,omitempty"`
-	DeletedAt    time.Time  	     `json:"deleted_at,omitempty"`
-	Nama         string     	     `json:"nama,omitempty" form:"nama"`
-	Harga        string     	     `json:"harga,omitempty" form:"harga"`
-	Deskripsi    string    	 	     `json:"deskripsi,omitempty" form:"deskripsi"`
-	Stok         int      		     `json:"stok,omitempty" form:"stok"`
-	UserId		 uint				 `json:"user_id" form:"user_id"`
-	Users		 UserEntity		     `json:"users,omitempty"`
+	Id          uint                `json:"product_id,omitempty" form:"product_id"`
+	CreatedAt   time.Time           `json:"created_at,omitempty"`
+	UpdatedAt   time.Time           `json:"updated_at,omitempty"`
+	DeletedAt   *time.Time          `json:"deleted_at,omitempty"`
+	Nama        string              `json:"nama,omitempty" form:"nama"`
+	Harga       string              `json:"harga,omitempty" form:"harga"`
+	Deskripsi   string              `json:"deskripsi,omitempty" form:"deskripsi"`
+	Stok        int                 `json:"stok,omitempty" form:"stok"`
+	UserId      uint                `json:"user_id" form:"user_id"`
+	Users       UserEntity          `json:"users,omitempty"`
 	Transactions []TransactionEntity `json:"transactions,omitempty"`
-	Image        []ImageEntity       `json:"images,omitempty"`
+	Images      []ImageEntity       `json:"images,omitempty"`
 }
 
 type ImageEntity struct {

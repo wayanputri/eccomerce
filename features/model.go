@@ -2,55 +2,54 @@ package features
 
 import "gorm.io/gorm"
 
-
-type User struct{
+type User struct {
 	gorm.Model
-	Nama 		 string			`gorm:"column:nama;not nul"`
-	NoTlp 		 string			`gorm:"column:no_tlp;unique;not nul"`
-	Email 		 string			`gorm:"column:email;unique;not nul"`
-	Password 	 string			`gorm:"column:password;not nul"`
-	Alamat 		 string			`gorm:"column:alamat;not nul"`
-	Products	 []Product		`gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
-	Transactions []Transaction	`gorm:"foreignKey:UserID"`
-}
-type Product struct{
-	gorm.Model
-	Nama 		 string			`gorm:"column:nama"`
-	Harga 		 string			`gorm:"column:harga"`
-	Deskripsi 	 string			`gorm:"column:deskripsi"`
-	Stok 		 int			`gorm:"column:stok"`
-	UserID 		 uint			`gorm:"column:user_id"`
-	Users		 User			`gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
-	Transactions []Transaction	`gorm:"foreignKey:ProductID"`
-	Image		 []Image		`gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`	
+	Nama         string        `gorm:"column:nama;not null"`
+	NoTlp        string        `gorm:"column:no_tlp;unique;not null"`
+	Email        string        `gorm:"column:email;unique;not null"`
+	Password     string        `gorm:"column:password;not null"`
+	Alamat       string        `gorm:"column:alamat;not null"`
+	Products     []Product     `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Transactions []Transaction `gorm:"foreignKey:UserID"`
 }
 
-type Payment struct{
+type Product struct {
 	gorm.Model
-	TransactionID 	uint		  `gorm:"column:transaction_id"`
-	Transactions	Transaction	  `gorm:"foreignKey:TransactionID"`
-	Status 			string		  `gorm:"column:status"`
-	Bank 			string		  `gorm:"column:bank"`
-	VA		 		string		  `gorm:"column:va"`
-	OrderID			string		  `gorm:"column:order_id"`
+	Nama         string        `gorm:"column:nama"`
+	Harga        string        `gorm:"column:harga"`
+	Deskripsi    string        `gorm:"column:deskripsi"`
+	Stok         int           `gorm:"column:stok"`
+	UserID       uint          `gorm:"column:user_id"`
+	Users        User          `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Transactions []Transaction `gorm:"foreignKey:ProductID"`
+	Images       []Image       `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
-type Transaction struct{
+type Payment struct {
 	gorm.Model
-	ProductID 	 uint			`gorm:"column:product_id"`
-	Products	 Product		`gorm:"foreignKey:ProductID"`
-	UserID 		 uint			`gorm:"column:user_id"`
-	Users		 User			`gorm:"foreignKey:UserID"`
-	Status 		 string			`gorm:"column:status;not nul"`
-	TotalHarga	 string			`gorm:"column:total_harga;not nul"`
-	JumlahBarang int			`gorm:"column:jumlah_barang;not nul"`
+	TransactionID uint        `gorm:"column:transaction_id"`
+	Transactions  Transaction `gorm:"foreignKey:TransactionID"`
+	Status        string      `gorm:"column:status"`
+	Bank          string      `gorm:"column:bank"`
+	VA            string      `gorm:"column:va"`
+	OrderID       string      `gorm:"column:order_id"`
 }
 
-
-type Image struct{
+type Transaction struct {
 	gorm.Model
-	ProductID 	uint	`gorm:"column:product_id"`
-	Products	Product `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`		
-	Link 		string	`gorm:"column:link"`
-	Nama 		string	`gorm:"column:nama_images"`
+	ProductID    uint     `gorm:"column:product_id"`
+	Products     Product  `gorm:"foreignKey:ProductID"`
+	UserID       uint     `gorm:"column:user_id"`
+	Users        User     `gorm:"foreignKey:UserID"`
+	Status       string   `gorm:"column:status;not null"`
+	TotalHarga   string   `gorm:"column:total_harga;not null"`
+	JumlahBarang int      `gorm:"column:jumlah_barang;not null"`
+}
+
+type Image struct {
+	gorm.Model
+	ProductID uint   `gorm:"column:product_id"`
+	Product   Product `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Link      string `gorm:"column:link"`
+	Nama      string `gorm:"column:nama_images"`
 }

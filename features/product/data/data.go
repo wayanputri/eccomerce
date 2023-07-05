@@ -45,7 +45,7 @@ func (repo *ProductsData) Update(id uint, product features.ProductEntity) (uint,
 // SelectById implements product.ProductData
 func (repo *ProductsData) SelectById(id uint) (features.ProductEntity, error) {
 	var ProductBase features.Product
-	tx := repo.db.First(&ProductBase, id)
+	tx := repo.db.Preload("Images").First(&ProductBase, id)
 	if tx.Error != nil {
 		return features.ProductEntity{}, tx.Error
 	}
@@ -57,7 +57,7 @@ func (repo *ProductsData) SelectById(id uint) (features.ProductEntity, error) {
 func (repo *ProductsData) SelectAll() ([]features.ProductEntity, error) {
 	var productModel []features.Product
 
-	tx := repo.db.Find(&productModel)
+	tx := repo.db.Preload("Images").Find(&productModel)
 	if tx.Error != nil {
 		return []features.ProductEntity{}, tx.Error
 	}

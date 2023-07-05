@@ -63,7 +63,7 @@ func ProductModelToEntity(product Product) ProductEntity {
 		transactionEntity = append(transactionEntity, TransactionModelToEntity(transaction))
 	}
 	var imageEntity []ImageEntity
-	for _, image := range product.Image {
+	for _, image := range product.Images {
 		imageEntity = append(imageEntity, ImageModelToEntity(image))
 	}
 
@@ -71,13 +71,13 @@ func ProductModelToEntity(product Product) ProductEntity {
 		Id:           product.ID,
 		CreatedAt:    product.CreatedAt,
 		UpdatedAt:    product.UpdatedAt,
-		DeletedAt:    product.DeletedAt.Time,
+		DeletedAt:    &product.DeletedAt.Time,
 		Nama:         product.Nama,
 		Harga:        product.Harga,
 		Deskripsi:    product.Deskripsi,
 		Stok:         product.Stok,
 		Transactions: transactionEntity,
-		Image:        imageEntity,
+		Images:       imageEntity,
 		Users:        UserModelToEntity(product.Users),
 	}
 }
@@ -89,7 +89,7 @@ func ImageModelToEntity(image Image) ImageEntity {
 		UpdatedAt: image.UpdatedAt,
 		DeletedAt: image.DeletedAt.Time,
 		ProductID: image.ProductID,
-		Products:  ProductModelToEntity(image.Products),
+		Products:  ProductModelToEntity(image.Product),
 		Link:      image.Link,
 		Nama:      image.Nama,
 	}

@@ -51,26 +51,26 @@ func ProductEntityToModel(product ProductEntity) Product {
 	for _, transaction := range product.Transactions {
 		transactions = append(transactions, TransactionEntityToModel(transaction))
 	}
-	var images []Image
-	for _, image := range product.Image {
-		images = append(images, ImageEntityToModel(image))
+	var imagesModel []Image
+	for _, image := range product.Images {
+		imagesModel = append(imagesModel, ImageEntityToModel(image))
 	}
 	return Product{
 		Nama:         product.Nama,
 		Harga:        product.Harga,
 		Deskripsi:    product.Deskripsi,
 		Stok:         product.Stok,
-		Transactions: transactions,
-		Image:        images,
 		UserID:       product.UserId,
 		Users:        UserEntityToModel(product.Users),
+		Transactions: transactions,
+		Images:       imagesModel,
 	}
 }
 
 func ImageEntityToModel(image ImageEntity) Image {
 	return Image{
 		ProductID: image.ProductID,
-		Products:  ProductEntityToModel(image.Products),
+		Product:   ProductEntityToModel(image.Products),
 		Link:      image.Link,
 		Nama:      image.Nama,
 	}

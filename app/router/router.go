@@ -69,6 +69,7 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	serviceImage := ServiseImage.New(dataImage)
 	handlerImage := HandlerImage.New(serviceImage)
 
-	c.POST("/uploud",handlerImage.AddImage)
+	c.POST("/products/:product_id/uplouds",handlerImage.AddImage)
+	c.GET("/images/:image_id",handlerImage.GetById)
 
 }

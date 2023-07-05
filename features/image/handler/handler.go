@@ -4,6 +4,7 @@ import (
 	"belajar/bareng/features"
 	"belajar/bareng/features/image"
 	"belajar/bareng/helper"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -13,6 +14,11 @@ type ImageHandler struct {
 }
 
 func (handler *ImageHandler) AddImage(c echo.Context) error{
+	productId:=c.Param("product_id")
+	cnv,errProductId := strconv.Atoi(productId)
+	if errProductId != nil{
+		return helper.FailedRequest(c,"failed conveert product id",nil)
+	}
 	var image features.ImageEntity
 	errBind:=c.Bind(&image)
 	if errBind != nil{
@@ -23,11 +29,32 @@ func (handler *ImageHandler) AddImage(c echo.Context) error{
 		return helper.FailedRequest(c,"failed uploud data "+errUploud.Error(),nil)
 	}
 	image.Link = link
-	id,err:=handler.imageHandler.AddImages(image)
+	id,err:=handler.imageHandler.AddImages(image,uint(cnv))
 	if err != nil{
 		return helper.InternalError(c,"failed add image"+err.Error(),nil)
 	}
-	return helper.SuccessCreate(c,"success create image",id)
+	
+	data,err:=handler.imageHandler.GetById(id)
+	if err != nil{
+		return helper.InternalError(c,"gagal get data "+err.Error(),nil)
+	}
+	dataResponse:=EntityToResponse(data)
+	return helper.Success(c,"succesfuly",dataResponse)
+}
+
+func (handler *ImageHandler) GetById(c echo.Context)error{
+	id:=c.Param("image_id")
+	cnv,errParam := strconv.Atoi(id)
+	if errParam != nil{
+		return helper.FailedNotFound(c,"faild convert id",nil)
+	}
+
+	data,err:=handler.imageHandler.GetById(uint(cnv))
+	if err != nil{
+		return helper.InternalError(c,"gagal get data "+err.Error(),nil)
+	}
+	dataResponse:=EntityToResponse(data)
+	return helper.Success(c,"succesfuly",dataResponse)
 }
 
 func New(handler image.ImageService) *ImageHandler{
