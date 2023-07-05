@@ -13,8 +13,8 @@ type PaymentData struct {
 }
 
 // updateTransactionStatus implements payment.PaymentService.
-func (service *PaymentData) UpdateStatus(payload features.PaymentEntity, orderID string) (uint, error) {
-	data,err:=service.paymentData.UpdateStatus(payload,orderID)
+func (service *PaymentData) UpdateStatus(accept string, orderID string) (uint, error) {
+	data,err:=service.paymentData.UpdateStatus(accept,orderID)
 	if err != nil{
 		return 0,err
 	}

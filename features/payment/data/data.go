@@ -14,13 +14,14 @@ type PaymentRepo struct {
 }
 
 // UpdateStatus implements payment.PaymentData.
-func (repo *PaymentRepo) UpdateStatus(payload features.PaymentEntity, OrderID string) (uint, error) {
+func (repo *PaymentRepo) UpdateStatus(accept string, OrderID string) (uint, error) {
 	var payment features.Payment
 	txx:=repo.db.First(&payment,"order_id=?",OrderID)
 	if txx.Error != nil{
 		return 0,txx.Error
 	}
-	tx := repo.db.Model(&payment).Where("order_id=?",OrderID).Updates(features.PaymentEntityToModel(payload))
+	payment.Status = accept
+	tx := repo.db.Model(&payment).Where("order_id=?",OrderID).Update("status",payment.Status )
 	if tx.Error != nil{
 		return 0,tx.Error
 	}

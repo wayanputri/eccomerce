@@ -7,11 +7,11 @@ import (
 type PaymentData interface{
 	Insert(payment features.PaymentEntity,transactionId uint) (uint,error)
 	SelectById(payment_id uint) (features.PaymentEntity,error)
-	UpdateStatus(payload features.PaymentEntity, OrderID string) (uint,error)
+	UpdateStatus(accept string, OrderID string) (uint,error)
 }
 
 type PaymentService interface{
 	Add(payment features.PaymentEntity,transactionId uint) (uint,error)
 	GetById(payment_id uint) (features.PaymentEntity,error)
-	UpdateStatus(payload features.PaymentEntity, orderID string) (uint,error)
+	UpdateStatus(accept string, orderID string) (uint,error)
 }
