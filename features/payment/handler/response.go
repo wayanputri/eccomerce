@@ -28,8 +28,8 @@ func EntityToResponse(payment features.PaymentEntity) Response{
 
 type NotificationPayload struct {
 	OrderID    string  `json:"order_id"`
-	Amount     float64 `json:"amount"`
-	Status     string  `json:"status"`
+	Amount     float64 `json:"gross_amounts"`
+	Status     string  `json:"fraud_status"`
 	CustomerID string  `json:"customer_id"`
 	Customers  []features.UserEntity
 }
