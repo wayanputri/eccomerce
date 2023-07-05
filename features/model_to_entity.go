@@ -89,7 +89,7 @@ func ImageModelToEntity(image Image) ImageEntity {
 		UpdatedAt: image.UpdatedAt,
 		DeletedAt: image.DeletedAt.Time,
 		ProductID: image.ProductID,
-		Products:  ProductModelToEntity(image.Product),
+		Products:  ProductModelToEntity(image.Products),
 		Link:      image.Link,
 		Nama:      image.Nama,
 	}

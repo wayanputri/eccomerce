@@ -14,7 +14,7 @@ type ImageData struct {
 // SelectById implements image.ImageData.
 func (repo *ImageData) SelectById(imageId uint) (features.ImageEntity, error) {
 	var image features.Image
-	tx:=repo.db.Preload("Products").Preload("Products.Users").First(&image,imageId)
+	tx:=repo.db.Preload("Products").First(&image,imageId)
 	if tx.Error != nil{
 		return features.ImageEntity{},tx.Error
 	}

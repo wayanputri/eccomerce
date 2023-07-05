@@ -49,7 +49,7 @@ type Transaction struct {
 type Image struct {
 	gorm.Model
 	ProductID uint   `gorm:"column:product_id"`
-	Product   Product `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Products   Product `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	Link      string `gorm:"column:link"`
 	Nama      string `gorm:"column:nama_images"`
 }

@@ -70,7 +70,7 @@ func ProductEntityToModel(product ProductEntity) Product {
 func ImageEntityToModel(image ImageEntity) Image {
 	return Image{
 		ProductID: image.ProductID,
-		Product:   ProductEntityToModel(image.Products),
+		Products:  ProductEntityToModel(image.Products),
 		Link:      image.Link,
 		Nama:      image.Nama,
 	}
