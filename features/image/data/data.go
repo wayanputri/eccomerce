@@ -11,15 +11,31 @@ type ImageData struct {
 	db *gorm.DB
 }
 
+// SelectAll implements image.ImageData.
+func (repo *ImageData) SelectAll() ([]features.ImageEntity, error) {
+	var image []features.Image
+	tx := repo.db.Preload("Products").Find(&image)
+	if tx.Error != nil {
+		return []features.ImageEntity{}, tx.Error
+	}
+	var dataImage []features.ImageEntity
+	for _, images := range image{
+		data := features.ImageModelToEntity(images)
+		dataImage = append(dataImage, data)
+	}
+	
+	return dataImage, nil
+}
+
 // SelectById implements image.ImageData.
 func (repo *ImageData) SelectById(imageId uint) (features.ImageEntity, error) {
 	var image features.Image
-	tx:=repo.db.Preload("Products").First(&image,imageId)
-	if tx.Error != nil{
-		return features.ImageEntity{},tx.Error
+	tx := repo.db.Preload("Products").First(&image, imageId)
+	if tx.Error != nil {
+		return features.ImageEntity{}, tx.Error
 	}
-	data:=features.ImageModelToEntity(image)
-	return data,nil
+	data := features.ImageModelToEntity(image)
+	return data, nil
 }
 
 // InserImages implements image.ImageData.

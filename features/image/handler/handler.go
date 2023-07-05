@@ -57,6 +57,20 @@ func (handler *ImageHandler) GetById(c echo.Context)error{
 	return helper.Success(c,"succesfuly",dataResponse)
 }
 
+func (handler *ImageHandler) GetAll(c echo.Context)error{
+
+	data,err:=handler.imageHandler.GetAll()
+	if err != nil{
+		return helper.InternalError(c,"gagal get data "+err.Error(),nil)
+	}
+	var dataImages []Response
+	for _,image := range data{
+		dataResponse:=EntityToResponse(image)
+		dataImages = append(dataImages, dataResponse)
+	}
+	return helper.Success(c,"succesfuly",dataImages)
+}
+
 func New(handler image.ImageService) *ImageHandler{
 	return &ImageHandler{
 		imageHandler: handler,

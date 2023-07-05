@@ -12,11 +12,20 @@ type ImageService struct {
 	validate     *validator.Validate
 }
 
+// GetAll implements image.ImageService.
+func (service *ImageService) GetAll() ([]features.ImageEntity, error) {
+	data,err:=service.imageService.SelectAll()
+	if err!=nil{
+		return []features.ImageEntity{},err
+	}
+	return data,nil
+}
+
 // GetById implements image.ImageService.
 func (service *ImageService) GetById(imageId uint) (features.ImageEntity, error) {
-	data,err:=service.imageService.SelectById(imageId)
-	if err != nil{
-		return features.ImageEntity{},err
+	data, err := service.imageService.SelectById(imageId)
+	if err != nil {
+		return features.ImageEntity{}, err
 	}
 	return data, nil
 }
