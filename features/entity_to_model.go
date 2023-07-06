@@ -55,6 +55,10 @@ func ProductEntityToModel(product ProductEntity) Product {
 	for _, image := range product.Images {
 		imagesModel = append(imagesModel, ImageEntityToModel(image))
 	}
+	var reviewsModel []Review
+	for _, review := range product.Reviews {
+		reviewsModel = append(reviewsModel, ReviewEntityToModel(review))
+	}
 	return Product{
 		Nama:         product.Nama,
 		Harga:        product.Harga,
@@ -64,6 +68,8 @@ func ProductEntityToModel(product ProductEntity) Product {
 		Users:        UserEntityToModel(product.Users),
 		Transactions: transactions,
 		Images:       imagesModel,
+		Ratings:      product.Ratings,
+		Reviews:      reviewsModel,
 	}
 }
 
@@ -73,5 +79,27 @@ func ImageEntityToModel(image ImageEntity) Image {
 		Products:  ProductEntityToModel(image.Products),
 		Link:      image.Link,
 		Nama:      image.Nama,
+	}
+}
+
+func ReviewEntityToModel(review ReviewEntity) Review {
+	var reviewImages []ReviewImages
+	for _, reviewImage := range review.ImagesReview {
+		reviewImages = append(reviewImages, ReviewImageEntityToModel(reviewImage))
+	}
+	return Review{
+		ProductID:    review.ProductID,
+		Rating:       review.Rating,
+		Deskripsi:    review.Deskripsi,
+		Products:     ProductEntityToModel(review.Products),
+		ImagesReview: reviewImages,
+	}
+}
+
+func ReviewImageEntityToModel(reviewimage ReviewImagesEntity) ReviewImages {
+	return ReviewImages{
+		ReviewID: reviewimage.ReviewID,
+		Reviews:  ReviewEntityToModel(reviewimage.Reviews),
+		Link:     reviewimage.Link,
 	}
 }

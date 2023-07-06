@@ -19,10 +19,30 @@ type Product struct {
 	Harga        string        `gorm:"column:harga"`
 	Deskripsi    string        `gorm:"column:deskripsi"`
 	Stok         int           `gorm:"column:stok"`
+	Ratings      int		   `gorm:"column:ratings"`
 	UserID       uint          `gorm:"column:user_id"`
 	Users        User          `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	Transactions []Transaction `gorm:"foreignKey:ProductID"`
 	Images       []Image       `gorm:"foreignKey:ProductID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Reviews		 []Review      `gorm:"foreignKey:ProductID"`
+}
+
+type Review struct{
+	gorm.Model
+	ProductID 		uint 			`gorm:"column:product_id"`
+	Rating 			int				`gorm:"column:rating"`
+	Deskripsi 		string			`gorm:"column:deskripsi"`
+	Products		Product 		`gorm:"foreignKey:ProductID"`
+	ImagesReview 	[]ReviewImages  `gorm:"foreignKey:ReviewID"`
+
+}
+
+type ReviewImages struct{
+	gorm.Model
+	ReviewID 		uint		`gorm:"column:review_id"`
+	Reviews 		Review		`gorm:"foreignKey:ReviewID"`
+	Link 			string		`gorm:"column:link"`
+	
 }
 
 type Payment struct {

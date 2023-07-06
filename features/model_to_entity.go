@@ -66,6 +66,10 @@ func ProductModelToEntity(product Product) ProductEntity {
 	for _, image := range product.Images {
 		imageEntity = append(imageEntity, ImageModelToEntity(image))
 	}
+	var reviewEntity []ReviewEntity
+	for _, review := range product.Reviews {
+		reviewEntity = append(reviewEntity, ReviewModelEntity(review))
+	}
 
 	return ProductEntity{
 		Id:           product.ID,
@@ -79,9 +83,9 @@ func ProductModelToEntity(product Product) ProductEntity {
 		Transactions: transactionEntity,
 		Images:       imageEntity,
 		Users:        UserModelToEntity(product.Users),
+		Reviews:      reviewEntity,
 	}
 }
-
 func ImageModelToEntity(image Image) ImageEntity {
 	return ImageEntity{
 		Id:        image.ID,
@@ -92,5 +96,34 @@ func ImageModelToEntity(image Image) ImageEntity {
 		Products:  ProductModelToEntity(image.Products),
 		Link:      image.Link,
 		Nama:      image.Nama,
+	}
+}
+func ReviewModelEntity(review Review) ReviewEntity {
+	var reviewImages []ReviewImagesEntity
+	for _, reviewImage := range review.ImagesReview {
+		reviewImages = append(reviewImages, ReviewImageModelEntity(reviewImage))
+	}
+	return ReviewEntity{
+		Id:           review.ID,
+		CreatedAt:    review.CreatedAt,
+		UpdatedAt:    review.UpdatedAt,
+		DeletedAt:    &review.DeletedAt.Time,
+		ProductID:    review.ProductID,
+		Rating:       review.Rating,
+		Deskripsi:    review.Deskripsi,
+		Products:     ProductModelToEntity(review.Products),
+		ImagesReview: reviewImages,
+	}
+}
+
+func ReviewImageModelEntity(reviewimage ReviewImages) ReviewImagesEntity {
+	return ReviewImagesEntity{
+		Id:        reviewimage.ID,
+		CreatedAt: reviewimage.CreatedAt,
+		UpdatedAt: reviewimage.UpdatedAt,
+		DeletedAt: &reviewimage.DeletedAt.Time,
+		ReviewID:  reviewimage.ReviewID,
+		Reviews:   ReviewModelEntity(reviewimage.Reviews),
+		Link:      reviewimage.Link,
 	}
 }

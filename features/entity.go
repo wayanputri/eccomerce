@@ -57,12 +57,38 @@ type ProductEntity struct {
 	DeletedAt   *time.Time          `json:"deleted_at,omitempty"`
 	Nama        string              `json:"nama,omitempty" form:"nama"`
 	Harga       string              `json:"harga,omitempty" form:"harga"`
+	Ratings     int					`json:"ratings,omitempty" form:"ratings"`
 	Deskripsi   string              `json:"deskripsi,omitempty" form:"deskripsi"`
 	Stok        int                 `json:"stok,omitempty" form:"stok"`
 	UserId      uint                `json:"user_id" form:"user_id"`
 	Users       UserEntity          `json:"users,omitempty"`
 	Transactions []TransactionEntity `json:"transactions,omitempty"`
 	Images      []ImageEntity       `json:"images,omitempty"`
+	Reviews		[]ReviewEntity      `json:"reviews,omitempty"`
+}
+
+type ReviewEntity struct{
+	Id          	uint                	`json:"review_id,omitempty" form:"review_id"`
+	CreatedAt   	time.Time           	`json:"created_at,omitempty"`
+	UpdatedAt   	time.Time           	`json:"updated_at,omitempty"`
+	DeletedAt   	*time.Time          	`json:"deleted_at,omitempty"`
+	ProductID 		uint 					`json:"product_id,omitempty" form:"product_id"`
+	Rating 			int						`json:"rating,omitempty" form:"rating"`
+	Deskripsi 		string					`json:"deskripsi,omitempty" form:"deskripsi"`
+	Products		ProductEntity 			`json:"products,omitempty"`
+	ImagesReview 	[]ReviewImagesEntity  	`json:"imagesreviews,omitempty"`
+
+}
+
+type ReviewImagesEntity struct{
+	Id          	uint                `json:"reviewimages_id,omitempty" form:"reviewimages_id"`
+	CreatedAt   	time.Time           `json:"created_at,omitempty"`
+	UpdatedAt   	time.Time           `json:"updated_at,omitempty"`
+	DeletedAt   	*time.Time          `json:"deleted_at,omitempty"`
+	ReviewID 		uint				`json:"review_id,omitempty" form:"review_id"`
+	Reviews 		ReviewEntity		`json:"reviews,omitempty"`
+	Link 			string				`json:"link,omitempty" form:"link"`
+	
 }
 
 type ImageEntity struct {
@@ -71,7 +97,7 @@ type ImageEntity struct {
 	UpdatedAt    time.Time     `json:"updated_at,omitempty"`
 	DeletedAt    time.Time     `json:"deleted_at,omitempty"`
 	ProductID 	 uint    	   `json:"product_id,omitempty" form:"product_id"`
-	Products  	 ProductEntity 	   `json:"products,omitempty"`
+	Products  	 ProductEntity `json:"products,omitempty"`
 	Link      	 string 	   `json:"link,omitempty" form:"link"`
 	Nama      	 string 	   `json:"nama_images,omitempty" form:"nama_images"`
 }
