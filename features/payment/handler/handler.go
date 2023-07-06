@@ -68,45 +68,15 @@ func (handler *PaymentHandler) Notification(c echo.Context) error {
 	}
 
 	// 4. Check transaction to Midtrans with param orderID
-	transactionStatusResp, errTrans := client.CheckTransaction(orderID)
+	transactionStatusResp, errTrans := client.CheckTransaction(orderID) 
 	if errTrans != nil {
 		return helper.InternalError(c,"internal server error "+errTrans.Error(),nil)
-	} else {
-		if transactionStatusResp != nil {
-			// 5. Do set transaction status based on response from check transaction status
-			if transactionStatusResp.TransactionStatus == "capture" {
-				if transactionStatusResp.FraudStatus == "challenge" {
-					// TODO: set transaction status on your database to 'challenge'
-					// e.g., 'Payment status challenged. Please take action on your Merchant Administration Portal'
-				} else if transactionStatusResp.FraudStatus == "accept" {
-					_, err := handler.paymentHandler.UpdateStatus("accept",orderID)
-					if err != nil {
-						return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-					}
-					// TODO: set transaction status on your database to 'success'
-				}
-			} else if transactionStatusResp.TransactionStatus == "settlement" {
-				// TODO: set transaction status on your database to 'success'
-			} else if transactionStatusResp.TransactionStatus == "deny" {
-				// TODO: you can ignore 'deny', because most of the time it allows payment retries
-				// and later can become success
-			} else if transactionStatusResp.TransactionStatus == "cancel" || transactionStatusResp.TransactionStatus == "expire" {
-				// TODO: set transaction status on your database to 'failure'
-				_, err := handler.paymentHandler.UpdateStatus("cancel",orderID)
-				if err != nil {
-					return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-				}
-			} else if transactionStatusResp.TransactionStatus == "pending" {
-				// TODO: set transaction status on your database to 'pending' / waiting payment
-				_, err := handler.paymentHandler.UpdateStatus("pending",orderID)
-				if err != nil {
-					return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-				}
-			}
-		}
 	}
-
-	return c.String(http.StatusOK, "ok")
+	id,errUpdate:=handler.paymentHandler.UpdateStatus(transactionStatusResp.TransactionStatus,orderID)
+	if errUpdate != nil{
+		return helper.InternalError(c,"failed update data "+errUpdate.Error(),nil)
+	}
+	return helper.Success(c,"successfuly",id)
 }
 
 
