@@ -5,7 +5,6 @@ import (
 	"belajar/bareng/features"
 	"belajar/bareng/features/payment"
 	"belajar/bareng/helper"
-	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -42,36 +41,31 @@ func (handler *PaymentHandler) Add(c echo.Context) error{
 }
 
 func (handler *PaymentHandler) Notification(c echo.Context) error {
-	// 1. Initiate Gateway
 	cfg := config.InitConfig()
 	var client = coreapi.Client{}
 	client.New(cfg.KEY_SERVER_MIDTRANS, midtrans.Sandbox)
 
-	// 2. Set Payment Override or Append via gateway options for specific request
 	client.Options.SetPaymentAppendNotification("YOUR-APPEND-NOTIFICATION-ENDPOINT")
 
-	// 1. Initialize empty map
 	var notificationPayload map[string]interface{}
 
-	// 2. Parse JSON request body and use it to set json to payload
 	err := c.Bind(&notificationPayload)
 	if err != nil {
-		// do something on error when decoding
-		return err
+
+		return helper.FailedRequest(c,"gagal bind data",nil)
 	}
 
-	// 3. Get order-id from payload
 	orderID, exists := notificationPayload["order_id"].(string)
 	if !exists {
-		// do something when key `order_id` not found
-		return echo.NewHTTPError(http.StatusBadRequest, "order_id not found")
+	
+		return helper.FailedRequest(c,"failed get orderId",nil)
 	}
 
-	// 4. Check transaction to Midtrans with param orderID
 	transactionStatusResp, errTrans := client.CheckTransaction(orderID) 
 	if errTrans != nil {
 		return helper.InternalError(c,"internal server error "+errTrans.Error(),nil)
 	}
+	
 	id,errUpdate:=handler.paymentHandler.UpdateStatus(transactionStatusResp.TransactionStatus,orderID)
 	if errUpdate != nil{
 		return helper.InternalError(c,"failed update data "+errUpdate.Error(),nil)
