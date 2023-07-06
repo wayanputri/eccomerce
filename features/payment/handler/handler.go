@@ -79,8 +79,7 @@ func (handler *PaymentHandler) Notification(c echo.Context) error {
 					// TODO: set transaction status on your database to 'challenge'
 					// e.g., 'Payment status challenged. Please take action on your Merchant Administration Portal'
 				} else if transactionStatusResp.FraudStatus == "accept" {
-					var accept string
-					_, err := handler.paymentHandler.UpdateStatus(accept,orderID)
+					_, err := handler.paymentHandler.UpdateStatus("accept",orderID)
 					if err != nil {
 						return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 					}
@@ -93,15 +92,13 @@ func (handler *PaymentHandler) Notification(c echo.Context) error {
 				// and later can become success
 			} else if transactionStatusResp.TransactionStatus == "cancel" || transactionStatusResp.TransactionStatus == "expire" {
 				// TODO: set transaction status on your database to 'failure'
-				var cancel string
-				_, err := handler.paymentHandler.UpdateStatus(cancel,orderID)
+				_, err := handler.paymentHandler.UpdateStatus("cancel",orderID)
 				if err != nil {
 					return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 				}
 			} else if transactionStatusResp.TransactionStatus == "pending" {
 				// TODO: set transaction status on your database to 'pending' / waiting payment
-				var pending string
-				_, err := handler.paymentHandler.UpdateStatus(pending,orderID)
+				_, err := handler.paymentHandler.UpdateStatus("pending",orderID)
 				if err != nil {
 					return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 				}
