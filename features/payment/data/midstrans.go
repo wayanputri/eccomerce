@@ -11,7 +11,7 @@ import (
 	"github.com/midtrans/midtrans-go/coreapi"
 )
 
-func requestCreditCard(harga string,orderId string) *coreapi.ChargeResponse{
+func requestCreditCard(harga string,orderId string, bank string) *coreapi.ChargeResponse{
 
 	cfg := config.InitConfig()
 	midtrans.ServerKey = cfg.KEY_SERVER_MIDTRANS
@@ -24,9 +24,10 @@ func requestCreditCard(harga string,orderId string) *coreapi.ChargeResponse{
 	bankTransferReq := &coreapi.ChargeReq{
 		PaymentType:        coreapi.PaymentTypeBankTransfer,
 		TransactionDetails: midtrans.TransactionDetails{OrderID: orderId, GrossAmt: int64(totalHarga)}, 
-		BankTransfer:       &coreapi.BankTransferDetails{Bank: "bca"},
+		BankTransfer:       &coreapi.BankTransferDetails{Bank: midtrans.Bank(bank)},
 		Metadata:           nil,
 	}
+
 	coreApiRes, errCore := coreapi.ChargeTransaction(bankTransferReq)
 	if errCore != nil {
 		log.Fatal("Failed to charge transaction:", errCore)

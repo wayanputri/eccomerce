@@ -51,7 +51,7 @@ func (repo *PaymentRepo) Insert(payment features.PaymentEntity, transactionId ui
 		return 0, errOrderId
 	}
 	paymentModel := features.PaymentEntityToModel(payment)
-	dataResponse := requestCreditCard(transaction.TotalHarga, orderID)
+	dataResponse := requestCreditCard(transaction.TotalHarga, orderID, paymentModel.Bank)
 	paymentModel = PaymentResponse(paymentModel, transactionId, orderID, dataResponse)
 
 	txx := repo.db.Where("transaction_id = ?", transactionId).Create(&paymentModel)
