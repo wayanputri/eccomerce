@@ -20,8 +20,7 @@ func (repo *PaymentRepo) UpdateStatus(accept string, OrderID string) (uint, erro
 	if txx.Error != nil{
 		return 0,txx.Error
 	}
-	payment.Status = accept
-	tx := repo.db.Model(&payment).Where("order_id=?",OrderID).Update("status",payment.Status )
+	tx := repo.db.Model(&payment).Where("order_id=?",OrderID).Update("status",accept )
 	if tx.Error != nil{
 		return 0,tx.Error
 	}
