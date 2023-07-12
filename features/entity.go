@@ -24,30 +24,44 @@ type LoginUser struct {
 }
 
 type PaymentEntity struct {
-	Id           uint         		  `json:"payment_id,omitempty" form:"payment_id"`
-	CreatedAt    time.Time    		  `json:"created_at,omitempty"`
-	UpdatedAt    time.Time    		  `json:"updated_at,omitempty"`
-	DeletedAt    time.Time    		  `json:"deleted_at,omitempty"`
-	TransactionID uint        		  `json:"transaction_id,omitempty" form:"transaction_id"`
-	Transactions  TransactionEntity   `json:"transactions,omitempty"`
-	Status        string      		  `json:"status,omitempty" form:"status"`
-	Bank          string      		  `json:"bank,omitempty" form:"bank"`
-	VA            string      		  `json:"va,omitempty" form:"va"`
-	OrderID		  string			  `json:"order_id,omitempty" form:"order_id"`
+	Id          			uint         		  		`json:"payment_id,omitempty" form:"payment_id"`
+	CreatedAt    			time.Time    		  		`json:"created_at,omitempty"`
+	UpdatedAt   		 	time.Time    		  		`json:"updated_at,omitempty"`
+	DeletedAt    			time.Time    		  		`json:"deleted_at,omitempty"`
+	TransactionID 			uint        		  		`json:"transaction_id,omitempty" form:"transaction_id"`
+	Transactions  			TransactionEntity   	 	`json:"transactions,omitempty"`
+	TransactionPaymentID 	uint 	 				 	`json:"transaction_payment_id"`
+	TransactionPayment 		TransactionPaymentEntity 	`json:"transaction_payment"`
+	Status        			string      		  		`json:"status,omitempty" form:"status"`
+	Bank          			string      		  		`json:"bank,omitempty" form:"bank"`
+	VA            			string      		 		`json:"va,omitempty" form:"va"`
+	OrderID		  			string			  			`json:"order_id,omitempty" form:"order_id"`
 }
 
 type TransactionEntity struct {
-	Id           uint      	      `json:"transaction_id,omitempty" form:"transaction_id"`
-	CreatedAt    time.Time 	      `json:"created_at,omitempty"`
-	UpdatedAt    time.Time  	  `json:"updated_at,omitempty"`
-	DeletedAt    time.Time    	  `json:"deleted_at,omitempty"`
-	ProductID 	 uint    	  	  `json:"product_id,omitempty" form:"product_id"`
-	Products 	 ProductEntity 	  `json:"products,omitempty"`
-	UserID   	 uint    		  `json:"user_id,omitempty" form:"user_id"`
-	Users    	 UserEntity   	  `json:"users,omitempty"`
-	Status  	 string 		  `json:"status,omitempty" form:"status"`
-	TotalHarga	 string			  `json:"total_harga,omitempty" form:"total_harga"`
-	JumlahBarang int			  `json:"jumlah_barang,omitempty" form:"jumlah_barang"`
+	Id           			uint      	      		`json:"transaction_id,omitempty" form:"transaction_id"`
+	CreatedAt    			time.Time 	      		`json:"created_at,omitempty"`
+	UpdatedAt   			time.Time  	  	  		`json:"updated_at,omitempty"`
+	DeletedAt    			time.Time    	  		`json:"deleted_at,omitempty"`
+	TransactionPaymentID 	uint 	 		  		`json:"transaction_payment_id"`
+	TransactionPayment 		TransactionPaymentEntity `json:"transaction_payment"`
+	ProductID 	 			uint    	  	  		`json:"product_id,omitempty" form:"product_id"`
+	Products 	 			ProductEntity 	  		`json:"products,omitempty"`
+	UserID   	 			uint    		  		`json:"user_id,omitempty" form:"user_id"`
+	Users    	 			UserEntity   	  		`json:"users,omitempty"`
+	Status  	 			string 		  	  		`json:"status,omitempty" form:"status"`
+	TotalHarga	 			string			  		`json:"total_harga,omitempty" form:"total_harga"`
+	JumlahBarang 			int			 	  		`json:"jumlah_barang,omitempty" form:"jumlah_barang"`
+}
+
+type TransactionPaymentEntity struct {
+	Id           			uint      	      	`json:"transaction_payment_id,omitempty" form:"transaction_payment_id"`
+	CreatedAt    			time.Time 	      	`json:"created_at,omitempty"`
+	UpdatedAt   			time.Time  	  	  	`json:"updated_at,omitempty"`
+	DeletedAt    			time.Time    	  	`json:"deleted_at,omitempty"`
+	Transactions  			[]TransactionEntity `json:"transactions,omitempty"`
+	Payments     			[]PaymentEntity   	`json:"payments,omitempty"`
+	HargaTotal    			string 	    	  	`json:"harga_total" form:"harga_total"`
 }
 
 type ProductEntity struct {

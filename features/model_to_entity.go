@@ -28,32 +28,50 @@ func UserModelToEntity(user User) UserEntity {
 
 func PaymentModelToEntity(payment Payment) PaymentEntity {
 	return PaymentEntity{
-		Id:            payment.ID,
-		CreatedAt:     payment.CreatedAt,
-		UpdatedAt:     payment.UpdatedAt,
-		DeletedAt:     payment.DeletedAt.Time,
-		TransactionID: payment.TransactionID,
-		Transactions:  TransactionModelToEntity(payment.Transactions),
-		Status:        payment.Status,
-		Bank:          payment.Bank,
-		VA:            payment.VA,
-		OrderID:       payment.OrderID,
+		Id:                   payment.ID,
+		CreatedAt:            payment.CreatedAt,
+		UpdatedAt:            payment.UpdatedAt,
+		DeletedAt:            payment.DeletedAt.Time,
+		TransactionPaymentID: payment.TransactionPaymentID,
+		TransactionPayment:   TransactionPaymentModelToEntity(payment.TransactionPayment),
+		Status:               payment.Status,
+		Bank:                 payment.Bank,
+		VA:                   payment.VA,
+		OrderID:              payment.OrderID,
+	}
+}
+
+func TransactionPaymentModelToEntity(transactionPayment TransactionPayment) TransactionPaymentEntity {
+	var transaksi []TransactionEntity
+	for _, transaction := range transactionPayment.Transactions {
+		transaksi = append(transaksi, TransactionModelToEntity(transaction))
+	}
+	var payments []PaymentEntity
+	for _, payment := range transactionPayment.Payments {
+		payments = append(payments, PaymentModelToEntity(payment))
+	}
+	return TransactionPaymentEntity{
+		Transactions: transaksi,
+		Payments:     payments,
+		HargaTotal:   transactionPayment.HargaTotal,
 	}
 }
 
 func TransactionModelToEntity(transaction Transaction) TransactionEntity {
 	return TransactionEntity{
-		Id:           transaction.ID,
-		CreatedAt:    transaction.CreatedAt,
-		UpdatedAt:    transaction.UpdatedAt,
-		DeletedAt:    transaction.DeletedAt.Time,
-		ProductID:    transaction.ProductID,
-		Products:     ProductModelToEntity(transaction.Products),
-		UserID:       transaction.UserID,
-		Users:        UserModelToEntity(transaction.Users),
-		Status:       transaction.Status,
-		TotalHarga:   transaction.TotalHarga,
-		JumlahBarang: transaction.JumlahBarang,
+		Id:                   transaction.ID,
+		CreatedAt:            transaction.CreatedAt,
+		UpdatedAt:            transaction.UpdatedAt,
+		DeletedAt:            transaction.DeletedAt.Time,
+		TransactionPaymentID: transaction.TransactionPaymentID,
+		TransactionPayment:   TransactionPaymentModelToEntity(transaction.TransactionPayment),
+		ProductID:            transaction.ProductID,
+		Products:             ProductModelToEntity(transaction.Products),
+		UserID:               transaction.UserID,
+		Users:                UserModelToEntity(transaction.Users),
+		Status:               transaction.Status,
+		TotalHarga:           transaction.TotalHarga,
+		JumlahBarang:         transaction.JumlahBarang,
 	}
 }
 

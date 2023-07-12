@@ -7,7 +7,7 @@ import (
 )
 
 func PaymentResponse(paymentModel features.Payment,transactionId uint, orderID string, dataResponse *coreapi.ChargeResponse) features.Payment{
-	paymentModel.TransactionID = transactionId
+	paymentModel.TransactionPaymentID = transactionId
 	paymentModel.OrderID = orderID
 	paymentModel.Bank = dataResponse.VaNumbers[0].Bank
 	paymentModel.OrderID = dataResponse.OrderID

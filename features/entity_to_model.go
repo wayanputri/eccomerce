@@ -25,12 +25,26 @@ func UserEntityToModel(user UserEntity) User {
 
 func PaymentEntityToModel(payment PaymentEntity) Payment {
 	return Payment{
-		TransactionID: payment.TransactionID,
-		Transactions:  TransactionEntityToModel(payment.Transactions),
-		Status:        payment.Status,
-		Bank:          payment.Bank,
-		VA:            payment.VA,
-		OrderID:       payment.OrderID,
+		Status:  payment.Status,
+		Bank:    payment.Bank,
+		VA:      payment.VA,
+		OrderID: payment.OrderID,
+	}
+}
+
+func TransactionPaymentEntityToModel(transactionPayment TransactionPaymentEntity) TransactionPayment {
+	var transaksi []Transaction
+	for _, transaction := range transactionPayment.Transactions {
+		transaksi = append(transaksi, TransactionEntityToModel(transaction))
+	}
+	var payments []Payment
+	for _, payment := range transactionPayment.Payments {
+		payments = append(payments, PaymentEntityToModel(payment))
+	}
+	return TransactionPayment{
+		Transactions: transaksi,
+		Payments:     payments,
+		HargaTotal:   transactionPayment.HargaTotal,
 	}
 }
 

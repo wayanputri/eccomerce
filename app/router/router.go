@@ -22,6 +22,10 @@ import (
 	HandlerImage "belajar/bareng/features/image/handler"
 	ServiseImage "belajar/bareng/features/image/service"
 
+	DataTransactionPayment "belajar/bareng/features/transactionpayment/data"
+	HandlerTransactionPayment "belajar/bareng/features/transactionpayment/handler"
+	ServiseTransactionPayment "belajar/bareng/features/transactionpayment/service"
+
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
@@ -73,4 +77,9 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	c.GET("/images/:image_id",handlerImage.GetById)
 	c.GET("/images",handlerImage.GetAll)
 
+	dataTansactionPayment := DataTransactionPayment.New(db)
+	serviceTansactionPayment := ServiseTransactionPayment.New(dataTansactionPayment)
+	handlerTansactionPayment := HandlerTransactionPayment.New(serviceTansactionPayment)
+
+	c.POST("/transaction/payment",handlerTansactionPayment.Add)
 }

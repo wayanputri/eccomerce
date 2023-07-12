@@ -47,25 +47,34 @@ type ReviewImages struct{
 
 type Payment struct {
 	gorm.Model
-	TransactionID uint        `gorm:"column:transaction_id"`
-	Transactions  Transaction `gorm:"foreignKey:TransactionID"`
-	Status        string      `gorm:"column:status"`
-	Bank          string      `gorm:"column:bank"`
-	VA            string      `gorm:"column:va"`
-	OrderID       string      `gorm:"column:order_id"`
+	TransactionPaymentID 		uint 				`gorm:"column:transaction_detil_id"`
+	TransactionPayment 		TransactionPayment 	`gorm:"foreignKey:TransactionPaymentID"`
+	Status        			string      		`gorm:"column:status"`
+	Bank          			string      		`gorm:"column:bank"`
+	VA            			string      		`gorm:"column:va"`
+	OrderID       			string      		`gorm:"column:order_id"`
 }
+
 
 type Transaction struct {
 	gorm.Model
-	ProductID    uint     `gorm:"column:product_id"`
-	Products     Product  `gorm:"foreignKey:ProductID"`
-	UserID       uint     `gorm:"column:user_id"`
-	Users        User     `gorm:"foreignKey:UserID"`
-	Status       string   `gorm:"column:status;not null"`
-	TotalHarga   string   `gorm:"column:total_harga;not null"`
-	JumlahBarang int      `gorm:"column:jumlah_barang;not null"`
+	ProductID    			uint     `gorm:"column:product_id"`
+	Products     			Product  `gorm:"foreignKey:ProductID"`
+	TransactionPaymentID 	uint 	 `gorm:"column:transaction_payment_id"`
+	TransactionPayment 		TransactionPayment `gorm:"foreignKey:TransactionPaymentID"`
+	UserID       			uint     `gorm:"column:user_id"`
+	Users        			User     `gorm:"foreignKey:UserID"`
+	Status       			string   `gorm:"column:status;not null"`
+	TotalHarga   			string   `gorm:"column:total_harga;not null"`
+	JumlahBarang 			int      `gorm:"column:jumlah_barang;not null"`
 }
 
+type TransactionPayment struct {
+	gorm.Model
+	Transactions  			[]Transaction 		`gorm:"foreignKey:TransactionPaymentID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"` 
+	Payments				[]Payment			`gorm:"foreignKey:TransactionPaymentID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	HargaTotal    			string 	    		`gorm:"column:harga_total"`
+}
 type Image struct {
 	gorm.Model
 	ProductID uint   `gorm:"column:product_id"`
