@@ -6,8 +6,8 @@ import (
 	"github.com/midtrans/midtrans-go/coreapi"
 )
 
-func PaymentResponse(paymentModel features.Payment,transactionId uint, orderID string, dataResponse *coreapi.ChargeResponse) features.Payment{
-	paymentModel.TransactionPaymentID = transactionId
+func PaymentResponse(paymentModel features.Payment,transactionpaymentId uint, orderID string, dataResponse *coreapi.ChargeResponse) features.Payment{
+	paymentModel.TransactionPaymentID = transactionpaymentId
 	paymentModel.OrderID = orderID
 	paymentModel.Bank = dataResponse.VaNumbers[0].Bank
 	paymentModel.OrderID = dataResponse.OrderID

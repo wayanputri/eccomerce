@@ -38,6 +38,32 @@ func (handler TransactionPaymentHandler) Add(c echo.Context) error{
 	return helper.SuccessCreate(c,"success create ",id)
 }
 
+func (handler TransactionPaymentHandler) Delete(c echo.Context) error{
+	id:=c.Param("id")
+	idConv,err := strconv.Atoi(id)
+	if err != nil{
+		return helper.FailedRequest(c,"failed conversi id",nil)
+	}
+	errDelete:=handler.transactionPaymentHandler.Delete(uint(idConv))
+	if errDelete != nil {
+		return helper.FailedRequest(c,"failed delete "+errDelete.Error(),nil)
+	}
+	return helper.Success(c,"success deleted",nil)
+}
+
+func (handler TransactionPaymentHandler) GetAll(c echo.Context) error{
+	data,err:=handler.transactionPaymentHandler.GetAll()
+	if err != nil {
+		return helper.FailedRequest(c,"failed get all "+err.Error(),nil)
+	}
+	var dataResponse []Response
+	for _,response:= range data{
+		dataResponse = append(dataResponse, EntityToResponse(response))
+	}
+	
+	return helper.Success(c,"success get all",dataResponse)
+}
+
 func New(service transactionpayment.TransactionPaymentService) *TransactionPaymentHandler{
 	return &TransactionPaymentHandler{
 		transactionPaymentHandler: service,

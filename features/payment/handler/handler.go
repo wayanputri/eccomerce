@@ -16,7 +16,7 @@ type PaymentHandler struct {
 	paymentHandler payment.PaymentService
 }
 func (handler *PaymentHandler) Add(c echo.Context) error{
-	id:=c.Param("transaksi_id")
+	id:=c.Param("transaksi_payment_id")
 	cnv,err:=strconv.Atoi(id)
 	if err != nil{
 		return helper.FailedNotFound(c, "id tidak terbaca", nil)

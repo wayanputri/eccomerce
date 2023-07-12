@@ -33,7 +33,7 @@ func PaymentModelToEntity(payment Payment) PaymentEntity {
 		UpdatedAt:            payment.UpdatedAt,
 		DeletedAt:            payment.DeletedAt.Time,
 		TransactionPaymentID: payment.TransactionPaymentID,
-		TransactionPayment:   TransactionPaymentModelToEntity(payment.TransactionPayment),
+		TransactionPayments:  TransactionPaymentModelToEntity(payment.TransactionPayments),
 		Status:               payment.Status,
 		Bank:                 payment.Bank,
 		VA:                   payment.VA,
@@ -51,6 +51,10 @@ func TransactionPaymentModelToEntity(transactionPayment TransactionPayment) Tran
 		payments = append(payments, PaymentModelToEntity(payment))
 	}
 	return TransactionPaymentEntity{
+		Id:           transactionPayment.ID,
+		CreatedAt:    transactionPayment.CreatedAt,
+		UpdatedAt:    transactionPayment.UpdatedAt,
+		DeletedAt:    transactionPayment.DeletedAt.Time,
 		Transactions: transaksi,
 		Payments:     payments,
 		HargaTotal:   transactionPayment.HargaTotal,

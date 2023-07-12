@@ -28,10 +28,8 @@ type PaymentEntity struct {
 	CreatedAt    			time.Time    		  		`json:"created_at,omitempty"`
 	UpdatedAt   		 	time.Time    		  		`json:"updated_at,omitempty"`
 	DeletedAt    			time.Time    		  		`json:"deleted_at,omitempty"`
-	TransactionID 			uint        		  		`json:"transaction_id,omitempty" form:"transaction_id"`
-	Transactions  			TransactionEntity   	 	`json:"transactions,omitempty"`
 	TransactionPaymentID 	uint 	 				 	`json:"transaction_payment_id"`
-	TransactionPayment 		TransactionPaymentEntity 	`json:"transaction_payment"`
+	TransactionPayments 		TransactionPaymentEntity 	`json:"transaction_payments"`
 	Status        			string      		  		`json:"status,omitempty" form:"status"`
 	Bank          			string      		  		`json:"bank,omitempty" form:"bank"`
 	VA            			string      		 		`json:"va,omitempty" form:"va"`

@@ -47,8 +47,8 @@ type ReviewImages struct{
 
 type Payment struct {
 	gorm.Model
-	TransactionPaymentID 		uint 				`gorm:"column:transaction_detil_id"`
-	TransactionPayment 		TransactionPayment 	`gorm:"foreignKey:TransactionPaymentID"`
+	TransactionPaymentID 		uint 			`gorm:"column:transaction_payment_id"`
+	TransactionPayments 		TransactionPayment 	`gorm:"foreignKey:TransactionPaymentID"`
 	Status        			string      		`gorm:"column:status"`
 	Bank          			string      		`gorm:"column:bank"`
 	VA            			string      		`gorm:"column:va"`

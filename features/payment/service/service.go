@@ -31,8 +31,8 @@ func (service *PaymentData) GetById(payment_id uint) (features.PaymentEntity, er
 }
 
 // Add implements payment.PaymentService.
-func (service *PaymentData) Add(payment features.PaymentEntity, transactionId uint) (uint, error) {
-	id, err := service.paymentData.Insert(payment, transactionId)
+func (service *PaymentData) Add(payment features.PaymentEntity, transactionpaymentId uint) (uint, error) {
+	id, err := service.paymentData.Insert(payment, transactionpaymentId)
 	if err != nil {
 		return 0, err
 	}

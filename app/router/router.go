@@ -66,7 +66,7 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	servicePayment := ServisePayment.New(dataPayment)
 	handlerPayment := HandlerPayment.New(servicePayment)
 
-	c.POST("/transactions/:transaksi_id/payments",handlerPayment.Add,middlewares.JWTMiddleware())
+	c.POST("/transactionpayments/:transaksi_payment_id/payments",handlerPayment.Add,middlewares.JWTMiddleware())
 	c.POST("/notification/handling",handlerPayment.Notification)
 
 	dataImage := DataImage.New(db)
@@ -82,4 +82,6 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	handlerTansactionPayment := HandlerTransactionPayment.New(serviceTansactionPayment)
 
 	c.POST("/transaction/payment",handlerTansactionPayment.Add)
+	c.DELETE("/transactionpayments/:id",handlerTansactionPayment.Delete)
+	c.GET("/transactionpayments",handlerTansactionPayment.GetAll)
 }

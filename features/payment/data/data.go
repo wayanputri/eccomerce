@@ -30,7 +30,7 @@ func (repo *PaymentRepo) UpdateStatus(accept string, OrderID string) (uint, erro
 // SelectById implements payment.PaymentData.
 func (repo *PaymentRepo) SelectById(payment_id uint) (features.PaymentEntity, error) {
 	var paymentModel features.Payment
-	tx := repo.db.Preload("Transactions").Preload("Transactions.Users").Preload("Transactions.Products").First(&paymentModel, payment_id)
+	tx := repo.db.Preload("TransactionPayments").First(&paymentModel, payment_id)
 	if tx.Error != nil {
 		return features.PaymentEntity{}, tx.Error
 	}
@@ -40,21 +40,21 @@ func (repo *PaymentRepo) SelectById(payment_id uint) (features.PaymentEntity, er
 }
 
 // Insert implements payment.PaymentData.
-func (repo *PaymentRepo) Insert(payment features.PaymentEntity, transactionId uint) (uint, error) {
-	var transaction features.Transaction
-	tx := repo.db.First(&transaction, transactionId)
+func (repo *PaymentRepo) Insert(payment features.PaymentEntity, transactionpaymentId uint) (uint, error) {
+	var transactionpayment features.TransactionPayment
+	tx := repo.db.First(&transactionpayment, transactionpaymentId)
 	if tx.Error != nil {
-		return 0, errors.New("id transaction tidak ditemukan")
+		return 0, errors.New("id transaction payment tidak ditemukan")
 	}
 	orderID, errOrderId := helper.GenerateUUID()
 	if errOrderId != nil {
 		return 0, errOrderId
 	}
 	paymentModel := features.PaymentEntityToModel(payment)
-	dataResponse := requestCreditCard(transaction.TotalHarga, orderID, paymentModel.Bank)
-	paymentModel = PaymentResponse(paymentModel, transactionId, orderID, dataResponse)
+	dataResponse := requestCreditCard(transactionpayment.HargaTotal, orderID, paymentModel.Bank)
+	paymentModel = PaymentResponse(paymentModel, transactionpaymentId, orderID, dataResponse)
 
-	txx := repo.db.Where("transaction_id = ?", transactionId).Create(&paymentModel)
+	txx := repo.db.Where("transaction_payment_id = ?", transactionpaymentId).Create(&paymentModel)
 	if txx.Error != nil {
 		return 0, txx.Error
 	}
