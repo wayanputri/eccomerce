@@ -9,13 +9,22 @@ type ImagesReviewService struct {
 	imagesReviewService reviewimage.ReviewImageData
 }
 
-// Add implements reviewimage.ReviewImageService.
-func (service ImagesReviewService) Add(imagesreview features.ReviewImagesEntity,reviewId uint) (uint, error) {
-	id,err:=service.imagesReviewService.Insert(imagesreview,reviewId)
+// Delete implements reviewimage.ReviewImageService.
+func (service ImagesReviewService) Delete(imageID uint) error {
+	err:=service.imagesReviewService.Delete(imageID)
 	if err != nil{
-		return 0,err
+		return err
 	}
-	return id,nil
+	return nil
+}
+
+// Add implements reviewimage.ReviewImageService.
+func (service ImagesReviewService) Add(imagesreview features.ReviewImagesEntity, reviewId uint) (uint, error) {
+	id, err := service.imagesReviewService.Insert(imagesreview, reviewId)
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
 }
 
 func New(service reviewimage.ReviewImageData) reviewimage.ReviewImageService {

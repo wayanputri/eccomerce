@@ -106,4 +106,5 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	handlerReviewImage := HandlerReviewImage.New(serviceReviewImage)
 
 	c.POST("/reviews/:id/reviewimages",handlerReviewImage.AddImage)
+	c.DELETE("/reviewimages/:id",handlerReviewImage.Delete)
 }

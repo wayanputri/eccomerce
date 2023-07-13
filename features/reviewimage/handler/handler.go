@@ -36,6 +36,19 @@ func (handler *ReviewImagesHandler) AddImage(c echo.Context) error{
 	
 }
 
+func (handler *ReviewImagesHandler) Delete(c echo.Context) error{
+	id:=c.Param("id")
+	snv,err:=strconv.Atoi(id)
+	if err != nil{
+		return helper.FailedRequest(c,"failed conversi id",nil)
+	}
+	errDel:=handler.reviewImageHandler.Delete(uint(snv))
+	if errDel != nil{
+		return helper.InternalError(c,"failed delete image "+errDel.Error(),nil)
+	}
+	return helper.SuccessWithOutData(c,"success deleted")
+}
+
 func New(handler reviewimage.ReviewImageService) *ReviewImagesHandler{
 	return &ReviewImagesHandler{
 		reviewImageHandler: handler,
