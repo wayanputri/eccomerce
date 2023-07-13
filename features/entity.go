@@ -69,7 +69,7 @@ type ProductEntity struct {
 	DeletedAt   *time.Time          `json:"deleted_at,omitempty"`
 	Nama        string              `json:"nama,omitempty" form:"nama"`
 	Harga       string              `json:"harga,omitempty" form:"harga"`
-	Ratings     int					`json:"ratings,omitempty" form:"ratings"`
+	Ratings     float64				`json:"ratings,omitempty" form:"ratings"`
 	Deskripsi   string              `json:"deskripsi,omitempty" form:"deskripsi"`
 	Stok        int                 `json:"stok,omitempty" form:"stok"`
 	UserId      uint                `json:"user_id" form:"user_id"`
@@ -85,7 +85,7 @@ type ReviewEntity struct{
 	UpdatedAt   	time.Time           	`json:"updated_at,omitempty"`
 	DeletedAt   	*time.Time          	`json:"deleted_at,omitempty"`
 	ProductID 		uint 					`json:"product_id,omitempty" form:"product_id"`
-	Rating 			int						`json:"rating,omitempty" form:"rating"`
+	Rating 			float64						`json:"rating,omitempty" form:"rating"`
 	Deskripsi 		string					`json:"deskripsi,omitempty" form:"deskripsi"`
 	Products		ProductEntity 			`json:"products,omitempty"`
 	ImagesReview 	[]ReviewImagesEntity  	`json:"imagesreviews,omitempty"`

@@ -106,6 +106,7 @@ func ProductModelToEntity(product Product) ProductEntity {
 		Images:       imageEntity,
 		Users:        UserModelToEntity(product.Users),
 		Reviews:      reviewEntity,
+		Ratings:      product.Ratings,
 	}
 }
 func ImageModelToEntity(image Image) ImageEntity {

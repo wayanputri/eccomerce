@@ -19,7 +19,7 @@ type Product struct {
 	Harga        string        `gorm:"column:harga"`
 	Deskripsi    string        `gorm:"column:deskripsi"`
 	Stok         int           `gorm:"column:stok"`
-	Ratings      int		   `gorm:"column:ratings"`
+	Ratings      float64		   `gorm:"column:ratings"`
 	UserID       uint          `gorm:"column:user_id"`
 	Users        User          `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	Transactions []Transaction `gorm:"foreignKey:ProductID"`
@@ -30,7 +30,7 @@ type Product struct {
 type Review struct{
 	gorm.Model
 	ProductID 		uint 			`gorm:"column:product_id"`
-	Rating 			int				`gorm:"column:rating"`
+	Rating 			float64				`gorm:"column:rating"`
 	Deskripsi 		string			`gorm:"column:deskripsi"`
 	Products		Product 		`gorm:"foreignKey:ProductID"`
 	ImagesReview 	[]ReviewImages  `gorm:"foreignKey:ReviewID"`

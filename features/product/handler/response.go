@@ -9,6 +9,7 @@ type Response struct {
 	Deskripsi string 			`json:"deskripsi,omitempty"`
 	Stok      int    			`json:"stok,omitempty"`
 	Link	  []ImageResponse 	`json:"link_image,omitempty"`
+	Ratings   float64			`json:"rating"`
 }
 
 type ImageResponse struct{
@@ -21,6 +22,7 @@ type ResponseAll struct {
 	Harga     string 		  `json:"harga,omitempty"`
 	Stok      int    		  `json:"stok,omitempty"`
 	Link      ImageResponse   `json:"link,omitempty"`
+	Ratings   float64			`json:"rating"`
 }
 
 func ImageEntityToResponse(image features.ImageEntity) ImageResponse{
@@ -41,6 +43,7 @@ func EntityToResponse(product features.ProductEntity) Response{
 		Deskripsi: 	product.Deskripsi,
 		Stok: 		product.Stok,
 		Link:       images,
+		Ratings: 	product.Ratings,
 	}
 }
 
@@ -56,5 +59,6 @@ func EntityToResponseAll(product features.ProductEntity) ResponseAll{
 		Harga: 		product.Harga,
 		Stok: 		product.Stok,
 		Link: 		imageResponse,
+		Ratings: 	product.Ratings,
 	}
 }

@@ -22,6 +22,10 @@ import (
 	HandlerImage "belajar/bareng/features/image/handler"
 	ServiseImage "belajar/bareng/features/image/service"
 
+	DataReview "belajar/bareng/features/review/data"
+	HandlerReview "belajar/bareng/features/review/handler"
+	ServiseReview "belajar/bareng/features/review/service"
+
 	DataTransactionPayment "belajar/bareng/features/transactionpayment/data"
 	HandlerTransactionPayment "belajar/bareng/features/transactionpayment/handler"
 	ServiseTransactionPayment "belajar/bareng/features/transactionpayment/service"
@@ -84,4 +88,11 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	c.POST("/transaction/payment",handlerTansactionPayment.Add)
 	c.DELETE("/transactionpayments/:id",handlerTansactionPayment.Delete)
 	c.GET("/transactionpayments",handlerTansactionPayment.GetAll)
+
+	dataReview := DataReview.New(db)
+	serviceReview := ServiseReview.New(dataReview)
+	handlerReview := HandlerReview.New(serviceReview)
+
+	c.POST("/products/:product_id/reviews",handlerReview.Add)
+	c.DELETE("/reviews/:id",handlerReview.Delete)
 }
