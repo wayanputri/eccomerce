@@ -9,10 +9,19 @@ type ReviewData struct {
 	reviewData review.ReviewData
 }
 
+// SelectAll implements review.ReviewService.
+func (service ReviewData) SelectAll() ([]features.ReviewEntity, error) {
+	data,err:=service.reviewData.SelectAll()
+	if err != nil{
+		return []features.ReviewEntity{},err
+	}
+	return data,nil
+}
+
 // Delete implements review.ReviewService.
 func (service ReviewData) Delete(review_Id uint) error {
 	err := service.reviewData.Delete(review_Id)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	return nil

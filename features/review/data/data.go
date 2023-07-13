@@ -12,8 +12,22 @@ type Review struct {
 	db *gorm.DB
 }
 
+// SelectAll implements review.ReviewData.
+func (repo Review) SelectAll() ([]features.ReviewEntity, error) {
+	review := []features.Review{}
+	tx := repo.db.Preload("Products").Preload("ImagesReview").Find(&review)
+	if tx.Error != nil {
+		return nil,errors.New(tx.Error.Error() + ", failed to get review id")
+	}	
+	var data []features.ReviewEntity
+	for _,reviewdata := range review{
+		data = append(data, features.ReviewModelEntity(reviewdata))
+	}
+	return data,nil
+}
+
 // UpdateRatingDelete implements review.ReviewData.
-func (repo Review) UpdateRatingDelete(reviewID uint,productID uint) error{
+func (repo Review) UpdateRatingDelete(reviewID uint, productID uint) error {
 	review := []features.Review{}
 	FoundProductId := repo.db.Find(&review, "product_id=?", productID)
 	if FoundProductId.Error != nil {
@@ -21,12 +35,12 @@ func (repo Review) UpdateRatingDelete(reviewID uint,productID uint) error{
 	}
 
 	var review1 features.Review
-	txx := repo.db.First(&review1, "product_id = ? AND id = ?",productID,reviewID)
+	txx := repo.db.First(&review1, "product_id = ? AND id = ?", productID, reviewID)
 	if txx.Error != nil {
 		return txx.Error
 	}
-	average,err:=AverageRatingsDelete(review,review1.Rating)
-	if err != nil{
+	average, err := AverageRatingsDelete(review, review1.Rating)
+	if err != nil {
 		return err
 	}
 	var product features.Product
@@ -39,14 +53,14 @@ func (repo Review) UpdateRatingDelete(reviewID uint,productID uint) error{
 
 // Delete implements review.ReviewData.
 func (repo Review) Delete(review_Id uint) error {
-	
+
 	var review features.Review
 	txx := repo.db.First(&review, review_Id)
 	if txx.Error != nil {
 		return txx.Error
 	}
-	err:=repo.UpdateRatingDelete(review.ID,review.ProductID)
-	if err != nil{
+	err := repo.UpdateRatingDelete(review.ID, review.ProductID)
+	if err != nil {
 		return err
 	}
 

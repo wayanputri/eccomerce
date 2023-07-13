@@ -12,6 +12,18 @@ import (
 type ReviewHandler struct {
 	reviewHandler review.ReviewService
 }
+func (handler ReviewHandler) GetAll(c echo.Context) error{
+	data,err:=handler.reviewHandler.SelectAll()
+	if err != nil{
+		return helper.InternalError(c,"failed get data",nil)
+	}
+	var dataResponse []Response
+	for _,response:= range data{
+		dataResponse =append(dataResponse, EntityToResponse(response)) 
+	}
+	
+	return helper.Success(c,"success read review",dataResponse)
+}
 
 func (handler ReviewHandler) Add(c echo.Context) error{
 	id:=c.Param("product_id")

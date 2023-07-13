@@ -30,6 +30,10 @@ import (
 	HandlerTransactionPayment "belajar/bareng/features/transactionpayment/handler"
 	ServiseTransactionPayment "belajar/bareng/features/transactionpayment/service"
 
+	DataReviewImage "belajar/bareng/features/reviewimage/data"
+	HandlerReviewImage "belajar/bareng/features/reviewimage/handler"
+	ServiseReviewImage "belajar/bareng/features/reviewimage/service"
+
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
@@ -95,4 +99,11 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 
 	c.POST("/products/:product_id/reviews",handlerReview.Add)
 	c.DELETE("/reviews/:id",handlerReview.Delete)
+	c.GET("/reviews",handlerReview.GetAll)
+
+	dataReviewImage := DataReviewImage.New(db)
+	serviceReviewImage := ServiseReviewImage.New(dataReviewImage)
+	handlerReviewImage := HandlerReviewImage.New(serviceReviewImage)
+
+	c.POST("/reviews/:id/reviewimages",handlerReviewImage.AddImage)
 }
