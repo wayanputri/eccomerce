@@ -12,10 +12,19 @@ type userService struct {
 	validate *validator.Validate
 }
 
+// Upgrade implements user.UserService.
+func (service *userService) Upgrade(userId uint, user features.UserEntity) (uint, error) {
+	id, err:=service.userData.Upgrade(userId,user)
+	if err != nil{
+		return 0,err
+	}
+	return id,nil
+}
+
 // Delete implements user.UserService
 func (servise *userService) Delete(id uint) error {
 	err := servise.userData.Delete(id)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	return nil

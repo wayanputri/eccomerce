@@ -3,6 +3,7 @@ package handler
 import (
 	"belajar/bareng/app/middlewares"
 	"belajar/bareng/features"
+	image "belajar/bareng/features/image/handler"
 	"belajar/bareng/features/user"
 	"belajar/bareng/helper"
 	"strings"
@@ -110,6 +111,26 @@ func (handler *UserHandler) DeleteUser(c echo.Context) error{
 		return helper.FailedRequest(c,"delete failed "+err.Error(),nil)
 	}
 	return helper.SuccessWithOutData(c,"succes delete data user")
+}
+
+func (handler *UserHandler) Upgrade(c echo.Context) error{
+	idUser:=middlewares.ExtractTokenUserId(c)
+	var user features.UserEntity
+	errBind:=c.Bind(&user)
+	if errBind != nil{
+		return helper.FailedNotFound(c,"error bind data",nil)
+	}
+	link,errUploud:=image.UploadImage(c)
+	if errUploud != nil{
+		return helper.FailedRequest(c,"failed uploud data "+errUploud.Error(),nil)
+	}
+	user.File = link
+	user.Role = "pedagang"
+	id,err:=handler.userHandler.Upgrade(idUser,user)
+	if err != nil{
+		return helper.InternalError(c,"failed upgrade "+err.Error(),nil)
+	}
+	return helper.Success(c,"success upgrade ",id)
 }
 
 func New(users user.UserService) *UserHandler{

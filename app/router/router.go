@@ -48,6 +48,7 @@ func InitRouter(c *echo.Echo, db *gorm.DB){
 	c.GET("/users",handlerUser.GetByIdUser,middlewares.JWTMiddleware())
 	c.PUT("/users",handlerUser.EditUser,middlewares.JWTMiddleware())
 	c.DELETE("/users",handlerUser.DeleteUser,middlewares.JWTMiddleware())
+	c.PUT("/upgrade",handlerUser.Upgrade,middlewares.JWTMiddleware())
 
 	dataProduct := DataProduct.New(db)
 	serviceProduct := ServiseProduct.New(dataProduct)

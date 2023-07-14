@@ -8,6 +8,7 @@ type UserData interface {
 	SelectById(id uint) (features.UserEntity,error)
 	Update(id uint, user features.UserEntity) (uint,error)
 	Delete(id uint)error
+	Upgrade(userId uint,user features.UserEntity) (uint,error)
 }
 
 type UserService interface{
@@ -16,4 +17,5 @@ type UserService interface{
 	GetById(id uint) (features.UserEntity,error)
 	Edit(id uint, user features.UserEntity) (uint,error)
 	Delete(id uint) error
+	Upgrade(userId uint,user features.UserEntity) (uint,error)
 }
