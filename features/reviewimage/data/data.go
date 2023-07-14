@@ -12,15 +12,29 @@ type ImagesReviewData struct {
 	db *gorm.DB
 }
 
+// SelectAll implements reviewimage.ReviewImageData.
+func (data *ImagesReviewData) SelectAll() ([]features.ReviewImagesEntity, error) {
+	var imageModel []features.ReviewImages
+	tx:=data.db.Preload("Reviews").Preload("Reviews.Products").Find(&imageModel)
+	if tx.Error != nil{
+		return nil,tx.Error
+	}
+	var imageEntity []features.ReviewImagesEntity
+	for _,image:=range imageModel{
+		imageEntity = append(imageEntity, features.ReviewImageModelEntity(image))
+	}
+	return imageEntity,nil	
+}
+
 // Delete implements reviewimage.ReviewImageData.
 func (data *ImagesReviewData) Delete(imageID uint) error {
 	var ImageModel features.ReviewImages
-	txx:= data.db.First(&ImageModel,imageID)
-	if txx.Error != nil{
+	txx := data.db.First(&ImageModel, imageID)
+	if txx.Error != nil {
 		return txx.Error
 	}
-	tx:=data.db.Delete(&ImageModel,imageID)
-	if tx.Error != nil{
+	tx := data.db.Delete(&ImageModel, imageID)
+	if tx.Error != nil {
 		return tx.Error
 	}
 	return nil

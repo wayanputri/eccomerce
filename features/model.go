@@ -9,6 +9,9 @@ type User struct {
 	Email        string        `gorm:"column:email;unique;not null"`
 	Password     string        `gorm:"column:password;not null"`
 	Alamat       string        `gorm:"column:alamat;not null"`
+	JenisKelamin string		   `gorm:"type:enum('male','female');default:'male';column:jenis_kelamin;not nul"`
+	Role         string		   `gorm:"type:enum('pedagang','user');default:'user';column:role;not nul"`
+	File         string 	   `gorm:"column:file"`        
 	Products     []Product     `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	Transactions []Transaction `gorm:"foreignKey:UserID"`
 }

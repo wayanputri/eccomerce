@@ -9,10 +9,19 @@ type ImagesReviewService struct {
 	imagesReviewService reviewimage.ReviewImageData
 }
 
+// GetAll implements reviewimage.ReviewImageService.
+func (service ImagesReviewService) GetAll() ([]features.ReviewImagesEntity, error) {
+	data,err:=service.imagesReviewService.SelectAll()
+	if err != nil{
+		return nil,err
+	}
+	return data, nil
+}
+
 // Delete implements reviewimage.ReviewImageService.
 func (service ImagesReviewService) Delete(imageID uint) error {
-	err:=service.imagesReviewService.Delete(imageID)
-	if err != nil{
+	err := service.imagesReviewService.Delete(imageID)
+	if err != nil {
 		return err
 	}
 	return nil

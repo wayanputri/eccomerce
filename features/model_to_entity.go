@@ -21,6 +21,9 @@ func UserModelToEntity(user User) UserEntity {
 		Email:        user.Email,
 		Password:     user.Password,
 		Alamat:       user.Alamat,
+		JenisKelamin: user.JenisKelamin,
+		Role:         user.Role,
+		File:         user.File,
 		Transactions: transactionEntity,
 		Product:      productEntity,
 	}

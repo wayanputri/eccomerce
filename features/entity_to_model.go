@@ -18,6 +18,9 @@ func UserEntityToModel(user UserEntity) User {
 		Email:        user.Email,
 		Password:     user.Password,
 		Alamat:       user.Alamat,
+		JenisKelamin: user.JenisKelamin,
+		Role:         user.Role,
+		File:         user.File,
 		Transactions: transactions,
 		Products:     products,
 	}

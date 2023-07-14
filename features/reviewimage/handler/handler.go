@@ -2,7 +2,7 @@ package handler
 
 import (
 	"belajar/bareng/features"
-	data "belajar/bareng/features/image/handler"
+	image "belajar/bareng/features/image/handler"
 	"belajar/bareng/features/reviewimage"
 	"belajar/bareng/helper"
 	"strconv"
@@ -21,19 +21,32 @@ func (handler *ReviewImagesHandler) AddImage(c echo.Context) error{
 		return helper.FailedRequest(c,"failed convert id", nil)
 	}
 
-	link,errUploud:=data.UploadImage(c)
+	link,errUploud:=image.UploadImage(c)
 	if errUploud != nil{
 		return helper.FailedRequest(c,"failed uploud data "+errUploud.Error(),nil)
-	}
-	var image features.ReviewImagesEntity
-	image.Link = link
-
-	idAdd,errAdd:=handler.reviewImageHandler.Add(image,uint(cnv))
-	if errAdd != nil{
-		return helper.InternalError(c,"err add image "+errAdd.Error(),nil)
-	}
-	return helper.Success(c,"success add image",idAdd)
+	}else{
+		var image features.ReviewImagesEntity
+		image.Link = link
 	
+		idAdd,errAdd:=handler.reviewImageHandler.Add(image,uint(cnv))
+		if errAdd != nil{
+			return helper.InternalError(c,"err add image "+errAdd.Error(),nil)
+		}
+		return helper.Success(c,"success add image",idAdd)
+	}
+
+}
+
+func (handler *ReviewImagesHandler) GetAll(c echo.Context) error{
+	data,err:=handler.reviewImageHandler.GetAll()
+	if err != nil{
+		return helper.InternalError(c,"failed get data "+err.Error(),nil)
+	}
+	var dataResponse []Response
+	for _,response:= range data{
+		dataResponse = append(dataResponse, EntityResponse(response))
+	}
+	return helper.Success(c,"success get image",dataResponse)
 }
 
 func (handler *ReviewImagesHandler) Delete(c echo.Context) error{

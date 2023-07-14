@@ -14,6 +14,9 @@ type UserEntity struct {
 	Email        string       		 `json:"email,omitempty" form:"email"`
 	Password     string        		 `json:"password,omitempty" form:"password"`
 	Alamat       string        		 `json:"alamat,omitempty" form:"alamat"`
+	JenisKelamin string				 `json:"jenis_kelamin"`
+	Role         string		   		 `json:"role" form:"role"`
+	File         string 	   	     `json:"file" form:"file"`
 	Transactions []TransactionEntity `json:"transactions,omitempty"`
 	Product		 []ProductEntity	 `json:"products,omitempty"`
 }
