@@ -12,6 +12,16 @@ type ProductService struct {
 	validate       *validator.Validate
 }
 
+// UserSelect implements product.ProductServise.
+func (service *ProductService) UserSelect(idUser uint) (string,error) {
+role,err:=service.productService.UserSelect(idUser)
+if err != nil{
+	return "",err
+}
+return role,nil
+	
+}
+
 // SelectByUserId implements product.ProductServise.
 func (service *ProductService) SelectByUserId(user_id uint) error {
 	err := service.productService.SelectByUserId(user_id)

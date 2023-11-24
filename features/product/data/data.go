@@ -12,6 +12,17 @@ type ProductsData struct {
 	db *gorm.DB
 }
 
+// UserSelect implements product.ProductData.
+func (repo *ProductsData) UserSelect(idUser uint) (string, error) {
+	var user features.User
+	tx := repo.db.First(&user, idUser)
+	if tx.Error != nil {
+		return "", tx.Error
+	}
+	role := user.Role
+	return role, nil
+}
+
 // SelectByUserId implements product.ProductData.
 func (repo *ProductsData) SelectByUserId(user_id uint) error {
 	var product features.Product
@@ -34,6 +45,7 @@ func (repo *ProductsData) Delete(id uint) error {
 
 // Update implements product.ProductData
 func (repo *ProductsData) Update(id uint, product features.ProductEntity) (uint, error) {
+
 	var productModal features.Product
 	tx := repo.db.Model(&productModal).Where("id=?", id).Updates(features.ProductEntityToModel(product))
 	if tx.Error != nil {
